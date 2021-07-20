@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/patrickap/nomad-ts/compare/v1.3.1...v1.3.2) (2021-07-20)
+
+
+### Bug Fixes
+
+* **io:** improved local type and removed ask/asks method in favor of access ([4fa5bfb](https://github.com/patrickap/nomad-ts/commit/4fa5bfb6babe606703966c22adcd306da72239f5))
+
 ## [1.3.1](https://github.com/patrickap/nomad-ts/compare/v1.3.0...v1.3.1) (2021-07-20)
 
 

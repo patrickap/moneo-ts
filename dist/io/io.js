@@ -222,17 +222,7 @@ var IOAsync = function (fa) {
             }); });
         },
         transform: function (convert) { return convert(IOAsync(fa)); },
-        access: function (f) { return IOAsync(function (env) { return __awaiter(void 0, void 0, void 0, function () { var _a, _b; return __generator(this, function (_c) {
-            switch (_c.label) {
-                case 0:
-                    _a = f;
-                    _b = [env];
-                    return [4 /*yield*/, fa(env)];
-                case 1: return [2 /*return*/, _a.apply(void 0, _b.concat([_c.sent()]))];
-            }
-        }); }); }); },
-        ask: function () { return IOAsync(function (env) { return env; }); },
-        asks: function (f) { return IOAsync(function (env) { return f(env); }); },
+        access: function (f) { return IOAsync(function (env) { return f(env); }); },
         local: function (f) { return IOAsync(function (env) { return IOAsync(fa).run(f(env)); }); },
         run: function (env) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
             return [2 /*return*/, fa(env)];
@@ -323,9 +313,7 @@ var IO = function (fa) {
             });
         },
         transform: function (convert) { return convert(IO(fa)); },
-        access: function (f) { return IO(function (env) { return f(env, fa(env)); }); },
-        ask: function () { return IO(function (env) { return env; }); },
-        asks: function (f) { return IO(function (env) { return f(env); }); },
+        access: function (f) { return IO(function (env) { return f(env); }); },
         local: function (f) { return IO(function (env) { return IO(fa).run(f(env)); }); },
         async: function () { return IOAsync(function (env) { return IO(fa).run(env); }); },
         run: function (env) { return fa(env); },

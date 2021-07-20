@@ -17,10 +17,8 @@ interface IOAsync<R, A> {
     timeout: (ms: number) => IOAsync<R, A>;
     cancel: () => IOAsync<R, never>;
     transform: <B>(convert: (io: IOAsync<R, A>) => B) => B;
-    access: <B>(f: (env: R, a: A) => B | Promise<B>) => IOAsync<R, B>;
-    ask: () => IOAsync<R, R>;
-    asks: <B>(f: (env: R) => B | Promise<B>) => IOAsync<R, B>;
-    local: <R2 = R>(f: (env: R2) => R) => IOAsync<R2, A>;
+    access: <B>(f: (env: R) => B | Promise<B>) => IOAsync<R, B>;
+    local: <S = R>(f: (env: S) => R) => IOAsync<S, A>;
     run: (env: R) => Promise<A>;
     inspect: () => string;
 }
@@ -37,10 +35,8 @@ interface IO<R, A> {
     recoverWith: <B>(io: IO<R, B>) => IO<R, A | B>;
     retry: (amount: number) => IO<R, A>;
     transform: <B>(convert: (io: IO<R, A>) => B) => B;
-    access: <B>(f: (env: R, a: A) => B) => IO<R, B>;
-    ask: () => IO<R, R>;
-    asks: <B>(f: (env: R) => B) => IO<R, B>;
-    local: <R2 = R>(f: (env: R2) => R) => IO<R2, A>;
+    access: <B>(f: (env: R) => B) => IO<R, B>;
+    local: <S = R>(f: (env: S) => R) => IO<S, A>;
     async: () => IOAsync<R, A>;
     run: (env: R) => A;
     inspect: () => string;

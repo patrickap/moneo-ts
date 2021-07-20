@@ -4,7 +4,7 @@ import { Throwable } from '../types';
 interface IOAsync<R, A> {
     ap: <B>(applicative: IOAsync<R, (a: A) => B | Promise<B>>) => IOAsync<R, B>;
     map: <B>(f: (a: A) => B | Promise<B>) => IOAsync<R, B>;
-    flatMap: <B>(f: (a: A) => IO<R, B> | IOAsync<R, B>) => IOAsync<R, B>;
+    flatMap: <S, B>(f: (a: A) => IO<S, B> | IOAsync<S, B>) => IOAsync<R & S, B>;
     memoize: () => IOAsync<R, A>;
     provide: (env: R) => IOAsync<void, A>;
     provideDefault: (env: R) => IOAsync<Partial<R> | void, A>;
@@ -17,7 +17,9 @@ interface IOAsync<R, A> {
     timeout: (ms: number) => IOAsync<R, A>;
     cancel: () => IOAsync<R, never>;
     transform: <B>(convert: (io: IOAsync<R, A>) => B) => B;
-    access: <R2>(f: (env: R) => R2) => IOAsync<R, R2>;
+    access: <B>(f: (env: R, a: A) => B | Promise<B>) => IOAsync<R, B>;
+    ask: () => IOAsync<R, R>;
+    asks: <B>(f: (env: R) => B | Promise<B>) => IOAsync<R, B>;
     local: <R2 = R>(f: (env: R2) => R) => IOAsync<R2, A>;
     run: (env: R) => Promise<A>;
     inspect: () => string;
@@ -25,7 +27,7 @@ interface IOAsync<R, A> {
 interface IO<R, A> {
     ap: <B>(applicative: IO<R, (a: A) => B>) => IO<R, B>;
     map: <B>(f: (a: A) => B) => IO<R, B>;
-    flatMap: <B>(f: (a: A) => IO<R, B>) => IO<R, B>;
+    flatMap: <S, B>(f: (a: A) => IO<S, B>) => IO<R & S, B>;
     memoize: () => IO<R, A>;
     provide: (env: R) => IO<void, A>;
     provideDefault: (env: R) => IO<Partial<R> | void, A>;
@@ -35,7 +37,9 @@ interface IO<R, A> {
     recoverWith: <B>(io: IO<R, B>) => IO<R, A | B>;
     retry: (amount: number) => IO<R, A>;
     transform: <B>(convert: (io: IO<R, A>) => B) => B;
-    access: <R2>(f: (env: R) => R2) => IO<R, R2>;
+    access: <B>(f: (env: R, a: A) => B) => IO<R, B>;
+    ask: () => IO<R, R>;
+    asks: <B>(f: (env: R) => B) => IO<R, B>;
     local: <R2 = R>(f: (env: R2) => R) => IO<R2, A>;
     async: () => IOAsync<R, A>;
     run: (env: R) => A;

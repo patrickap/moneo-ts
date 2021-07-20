@@ -5,7 +5,7 @@
 
 * version was not in sync with npm ([e3f2461](https://github.com/patrickap/nomad-ts/commit/e3f2461a0928b3cb0c8f1a53c7e7f0841a99df77))
 
-# [1.3.0](https://github.com/patrickap/nomad-ts/compare/v1.0.0...v1.3.0) (2021-07-20)
+# [1.1.0](https://github.com/patrickap/nomad-ts/compare/v1.0.0...v1.1.0) (2021-07-20)
 
 ### Features
 

@@ -14,7 +14,7 @@ import { withCancel, withDelay, withTimeout } from '../utils';
 interface IOAsync<R, A> {
   ap: <B>(applicative: IOAsync<R, (a: A) => B | Promise<B>>) => IOAsync<R, B>;
   map: <B>(f: (a: A) => B | Promise<B>) => IOAsync<R, B>;
-  flatMap: <B>(f: (a: A) => IO<R, B> | IOAsync<R, B>) => IOAsync<R, B>;
+  flatMap: <S, B>(f: (a: A) => IO<S, B> | IOAsync<S, B>) => IOAsync<R & S, B>;
   memoize: () => IOAsync<R, A>;
   provide: (env: R) => IOAsync<void, A>;
   provideDefault: (env: R) => IOAsync<Partial<R> | void, A>;
@@ -27,7 +27,9 @@ interface IOAsync<R, A> {
   timeout: (ms: number) => IOAsync<R, A>;
   cancel: () => IOAsync<R, never>;
   transform: <B>(convert: (io: IOAsync<R, A>) => B) => B;
-  access: <R2>(f: (env: R) => R2) => IOAsync<R, R2>;
+  access: <B>(f: (env: R, a: A) => B | Promise<B>) => IOAsync<R, B>;
+  ask: () => IOAsync<R, R>;
+  asks: <B>(f: (env: R) => B | Promise<B>) => IOAsync<R, B>;
   local: <R2 = R>(f: (env: R2) => R) => IOAsync<R2, A>;
   run: (env: R) => Promise<A>;
   inspect: () => string;
@@ -36,7 +38,7 @@ interface IOAsync<R, A> {
 interface IO<R, A> {
   ap: <B>(applicative: IO<R, (a: A) => B>) => IO<R, B>;
   map: <B>(f: (a: A) => B) => IO<R, B>;
-  flatMap: <B>(f: (a: A) => IO<R, B>) => IO<R, B>;
+  flatMap: <S, B>(f: (a: A) => IO<S, B>) => IO<R & S, B>;
   memoize: () => IO<R, A>;
   provide: (env: R) => IO<void, A>;
   provideDefault: (env: R) => IO<Partial<R> | void, A>;
@@ -46,14 +48,16 @@ interface IO<R, A> {
   recoverWith: <B>(io: IO<R, B>) => IO<R, A | B>;
   retry: (amount: number) => IO<R, A>;
   transform: <B>(convert: (io: IO<R, A>) => B) => B;
-  access: <R2>(f: (env: R) => R2) => IO<R, R2>;
+  access: <B>(f: (env: R, a: A) => B) => IO<R, B>;
+  ask: () => IO<R, R>;
+  asks: <B>(f: (env: R) => B) => IO<R, B>;
   local: <R2 = R>(f: (env: R2) => R) => IO<R2, A>;
   async: () => IOAsync<R, A>;
   run: (env: R) => A;
   inspect: () => string;
 }
 
-const IOAsync = <R extends {[key: string]: any} | void, A = unknown>(
+const IOAsync = <R extends { [key: string]: any } | void, A = unknown>(
   fa: (env: R) => A | Promise<A>,
 ): IOAsync<R, A> => {
   let memo: Promise<A>;
@@ -69,7 +73,7 @@ const IOAsync = <R extends {[key: string]: any} | void, A = unknown>(
         return memo;
       }),
     provide: (env) => IOAsync(() => fa(env)),
-    provideDefault: (env) => IOAsync((newEnv) => fa({...env, ...newEnv})),
+    provideDefault: (env) => IOAsync((newEnv) => fa({ ...env, ...newEnv })),
     either: () =>
       IOAsync(async (env) => {
         try {
@@ -132,7 +136,9 @@ const IOAsync = <R extends {[key: string]: any} | void, A = unknown>(
         return await cancel();
       }),
     transform: (convert) => convert(IOAsync(fa)),
-    access: (f) => IOAsync((env) => f(env)),
+    access: (f) => IOAsync(async (env) => f(env, await fa(env))),
+    ask: () => IOAsync((env) => env),
+    asks: (f) => IOAsync((env) => f(env)),
     local: (f) => IOAsync((env) => IOAsync(fa).run(f(env))),
     run: async (env) => fa(env),
     inspect: () => `IOAsync(${fa})`,
@@ -146,7 +152,9 @@ IOAsync.failure = (t: Throwable) =>
   });
 IOAsync.success = <A>(a: A) => IOAsync(() => a);
 
-const IO = <R extends {[key: string]: any} | void, A = unknown>(fa: (env: R) => A): IO<R, A> => {
+const IO = <R extends { [key: string]: any } | void, A = unknown>(
+  fa: (env: R) => A,
+): IO<R, A> => {
   let memo: A;
 
   return {
@@ -160,7 +168,7 @@ const IO = <R extends {[key: string]: any} | void, A = unknown>(fa: (env: R) => 
         return memo;
       }),
     provide: (env) => IO(() => fa(env)),
-    provideDefault: (env) => IO((newEnv) => fa({...env, ...newEnv})),
+    provideDefault: (env) => IO((newEnv) => fa({ ...env, ...newEnv })),
     either: () =>
       IO((env) => {
         try {
@@ -208,7 +216,9 @@ const IO = <R extends {[key: string]: any} | void, A = unknown>(fa: (env: R) => 
         }
       }),
     transform: (convert) => convert(IO(fa)),
-    access: (f) => IO((env) => f(env)),
+    access: (f) => IO((env) => f(env, fa(env))),
+    ask: () => IO((env) => env),
+    asks: (f) => IO((env) => f(env)),
     local: (f) => IO((env) => IO(fa).run(f(env))),
     async: () => IOAsync((env) => IO(fa).run(env)),
     run: (env) => fa(env),

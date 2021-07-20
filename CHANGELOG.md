@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/patrickap/nomad-ts/compare/v1.0.0...v1.1.0) (2021-07-20)
+
+
+### Features
+
+* **io:** improved flatMap/access, added ask/asks ([765af55](https://github.com/patrickap/nomad-ts/commit/765af558e231623b8ccd22ff7c6c5ed9717aa72c))
+
 # 1.0.0 (2021-07-20)
 
 

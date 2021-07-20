@@ -1,0 +1,41 @@
+{
+  "name": "moneo-ts",
+  "version": "1.0.0",
+  "description": "monad library for typescript",
+  "license": "MIT",
+  "author": "patrickap",
+  "repository": "https://github.com/patrickap/nomad-ts.git",
+  "type": "commonjs",
+  "main": "dist/index",
+  "types": "dist/index",
+  "scripts": {
+    "test": "jest",
+    "watch": "jest --watch",
+    "build": "tsc && typedoc",
+    "release": "dotenv semantic-release",
+    "release-dry": "dotenv semantic-release -- -d"
+  },
+  "devDependencies": {
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@types/jest": "^26.0.23",
+    "dotenv-cli": "^4.0.0",
+    "jest": "^27.0.6",
+    "semantic-release": "^17.4.4",
+    "ts-jest": "^27.0.3",
+    "typedoc": "^0.21.4",
+    "typescript": "^4.3.5"
+  },
+  "keywords": [
+    "monad",
+    "adt",
+    "functional",
+    "fp",
+    "typescript",
+    "pure",
+    "option",
+    "either",
+    "io",
+    "async"
+  ]
+}

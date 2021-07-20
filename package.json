@@ -12,7 +12,7 @@
     "test": "jest",
     "watch": "jest --watch",
     "build": "tsc && typedoc",
-    "release": "dotenv semantic-release",
+    "release": "npm run test && npm run build && dotenv semantic-release",
     "release-dry": "dotenv semantic-release -- -d"
   },
   "devDependencies": {

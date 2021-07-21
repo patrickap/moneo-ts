@@ -6,11 +6,8 @@ import { None, Option, Some } from '../option';
 
 interface Either<L, R> {
   ap: <R2>(applicative: Either<L, (r: R) => R2>) => Either<L, R2>;
-  // bimap<L2, R2>(f: (r: R) => R2, g: (l: L) => L2): Either<L2, R2>;
   map: <R2>(f: (r: R) => R2) => Either<L, R2>;
-  // mapLeft: <L2>(f: (l: L) => L2) => Either<L2, R>;
-  flatMap: <L2, R2>(f: (r: R) => Either<L2, R2>) => Either<L | L2, R2>;
-  // flatMapLeft: <L2, R2>(f: (l: L) => Either<L2, R2>) => Either<L2, R | R2>;
+  flatMap: <L2, R2>(f: (r: R) => Either<L2, R2>) => Either<L | L2, R | R2>;
   isLeft: () => this is Left<L>;
   isRight: () => this is Right<R>;
   orElse: <L2, R2>(alternative: Either<L2, R2>) => Either<L | L2, R | R2>;
@@ -38,11 +35,8 @@ type Right<R> = Either<never, R>;
 
 const Left = <L>(l: L): Left<L> => ({
   ap: (_) => Left(l),
-  // bimap: (_, f) => Left(f(l)),
   map: (_) => Left(l),
-  // mapLeft: (f) => Left(f(l)),
   flatMap: (_) => Left(l),
-  // flatMapLeft: (f) => f(l),
   isLeft: () => true,
   isRight: () => false,
   orElse: (alternative) => alternative,
@@ -66,12 +60,9 @@ const Left = <L>(l: L): Left<L> => ({
 Left.of = Left;
 
 const Right = <R>(r: R): Right<R> => ({
-  ap: (applicative) => applicative.flatMap((f) => Right(r).map(f)),
-  // bimap: (f, _) => Right(f(r)),
+  ap: (applicative) => applicative.map((f) => f(r)),
   map: (f) => Right(f(r)),
-  // mapLeft: (_) => Right(r),
   flatMap: (f) => f(r),
-  // flatMapLeft: (_) => Right(r),
   isLeft: () => false,
   isRight: () => true,
   orElse: (_) => Right(r),

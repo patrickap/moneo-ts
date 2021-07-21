@@ -1,3 +1,16 @@
+## [1.3.4](https://github.com/patrickap/nomad-ts/compare/v1.3.3...v1.3.4) (2021-07-21)
+
+
+### Bug Fixes
+
+* **io:** type corrections, improved provideDefault, ap ([0d79b15](https://github.com/patrickap/nomad-ts/commit/0d79b15b735f829eee0d0c9387903d45b361aa4f))
+
+
+### Performance Improvements
+
+* **option:** improved ap ([3982576](https://github.com/patrickap/nomad-ts/commit/398257676965a3951954cef94b503a8e953bcf59))
+* improved either flatMap and ap, removed unused methods ([f8a7e00](https://github.com/patrickap/nomad-ts/commit/f8a7e00fa8110a6d59509d3ebaa310fc9dd9a4e4))
+
 ## [1.3.3](https://github.com/patrickap/nomad-ts/compare/v1.3.2...v1.3.3) (2021-07-20)
 
 

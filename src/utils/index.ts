@@ -1,29 +1,9 @@
-import { Throwable } from '../types';
-
 const isNil = (x: any): x is undefined | null => {
   if (x === null || x === undefined) {
     return true;
   } else {
     return false;
   }
-};
-
-const isFunction = (x: any): x is Function => {
-  return !!(x && typeof x == 'function');
-};
-
-const isPromise = (x: any): x is Promise<any> => {
-  return !!(x && isFunction(x?.then));
-};
-
-const toPromise = <T>(fn: () => T): Promise<T> => {
-  return new Promise((resolve, reject) => {
-    try {
-      return resolve(fn());
-    } catch (e) {
-      return reject(e);
-    }
-  });
 };
 
 const withDelay = <T>(promise: () => Promise<T>) => {
@@ -35,7 +15,7 @@ const withDelay = <T>(promise: () => Promise<T>) => {
       }, ms);
     }).then(() => promise());
   };
-  return { delay };
+  return { delay, promise };
 };
 
 const withTimeout = <T>(promise: () => Promise<T>) => {
@@ -51,7 +31,7 @@ const withTimeout = <T>(promise: () => Promise<T>) => {
     });
   };
 
-  return { timeout };
+  return { timeout, promise };
 };
 
 const withCancel = <T>(promise: () => Promise<T>) => {
@@ -63,15 +43,7 @@ const withCancel = <T>(promise: () => Promise<T>) => {
       return result;
     }) as Promise<never>;
   };
-  return { cancel };
+  return { cancel, promise };
 };
 
-export {
-  isNil,
-  isFunction,
-  isPromise,
-  toPromise,
-  withDelay,
-  withTimeout,
-  withCancel,
-};
+export { isNil, withDelay, withTimeout, withCancel };

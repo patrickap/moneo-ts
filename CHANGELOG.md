@@ -1,3 +1,10 @@
+## [1.3.5](https://github.com/patrickap/nomad-ts/compare/v1.3.4...v1.3.5) (2021-07-21)
+
+
+### Bug Fixes
+
+* new build ([353d574](https://github.com/patrickap/nomad-ts/commit/353d57480a247b0c6d0b4a2d187df17dcdd93850))
+
 ## [1.3.4](https://github.com/patrickap/nomad-ts/compare/v1.3.3...v1.3.4) (2021-07-21)
 
 

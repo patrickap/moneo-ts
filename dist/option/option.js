@@ -4,7 +4,7 @@ exports.None = exports.Some = exports.Option = void 0;
 var either_1 = require("../either");
 var utils_1 = require("../utils");
 var Some = function (a) { return ({
-    ap: function (applicative) { return applicative.flatMap(function (f) { return Some(a).map(f); }); },
+    ap: function (applicative) { return applicative.map(function (f) { return f(a); }); },
     map: function (f) { return Some(f(a)); },
     flatMap: function (f) { return f(a); },
     isSome: function () { return true; },

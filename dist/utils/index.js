@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.withCancel = exports.withTimeout = exports.withDelay = exports.toPromise = exports.isPromise = exports.isFunction = exports.isNil = void 0;
+exports.withCancel = exports.withTimeout = exports.withDelay = exports.isNil = void 0;
 var isNil = function (x) {
     if (x === null || x === undefined) {
         return true;
@@ -10,25 +10,6 @@ var isNil = function (x) {
     }
 };
 exports.isNil = isNil;
-var isFunction = function (x) {
-    return !!(x && typeof x == 'function');
-};
-exports.isFunction = isFunction;
-var isPromise = function (x) {
-    return !!(x && isFunction(x === null || x === void 0 ? void 0 : x.then));
-};
-exports.isPromise = isPromise;
-var toPromise = function (fn) {
-    return new Promise(function (resolve, reject) {
-        try {
-            return resolve(fn());
-        }
-        catch (e) {
-            return reject(e);
-        }
-    });
-};
-exports.toPromise = toPromise;
 var withDelay = function (promise) {
     var delay = function (ms) {
         return new Promise(function (resolve) {
@@ -38,7 +19,7 @@ var withDelay = function (promise) {
             }, ms);
         }).then(function () { return promise(); });
     };
-    return { delay: delay };
+    return { delay: delay, promise: promise };
 };
 exports.withDelay = withDelay;
 var withTimeout = function (promise) {
@@ -52,7 +33,7 @@ var withTimeout = function (promise) {
             return result;
         });
     };
-    return { timeout: timeout };
+    return { timeout: timeout, promise: promise };
 };
 exports.withTimeout = withTimeout;
 var withCancel = function (promise) {
@@ -64,6 +45,6 @@ var withCancel = function (promise) {
             return result;
         });
     };
-    return { cancel: cancel };
+    return { cancel: cancel, promise: promise };
 };
 exports.withCancel = withCancel;

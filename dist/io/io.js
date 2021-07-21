@@ -1,15 +1,4 @@
 "use strict";
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -55,7 +44,14 @@ var IOAsync = function (fa) {
     var memo;
     return {
         ap: function (applicative) {
-            return IOAsync(function (env) { return applicative.flatMap(function (f) { return IOAsync(fa).map(f); }).run(env); });
+            return IOAsync(function (env) { return applicative.map(function (f) { return __awaiter(void 0, void 0, void 0, function () { var _a; return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = f;
+                        return [4 /*yield*/, fa(env)];
+                    case 1: return [2 /*return*/, _a.apply(void 0, [_b.sent()])];
+                }
+            }); }); }).run(env); });
         },
         map: function (f) { return IOAsync(function (env) { return __awaiter(void 0, void 0, void 0, function () { var _a; return __generator(this, function (_b) {
             switch (_b.label) {
@@ -81,7 +77,7 @@ var IOAsync = function (fa) {
             });
         },
         provide: function (env) { return IOAsync(function () { return fa(env); }); },
-        provideDefault: function (env) { return IOAsync(function (newEnv) { return fa(__assign(__assign({}, env), newEnv)); }); },
+        provideDefault: function (env) { return IOAsync(function (newEnv) { return fa(newEnv !== null && newEnv !== void 0 ? newEnv : env); }); },
         either: function () {
             return IOAsync(function (env) { return __awaiter(void 0, void 0, void 0, function () {
                 var _a, e_1;
@@ -242,7 +238,7 @@ var IO = function (fa) {
     var memo;
     return {
         ap: function (applicative) {
-            return IO(function (env) { return applicative.flatMap(function (f) { return IO(fa).map(f); }).run(env); });
+            return IO(function (env) { return applicative.map(function (f) { return f(fa(env)); }).run(env); });
         },
         map: function (f) { return IO(function (env) { return f(fa(env)); }); },
         flatMap: function (f) { return IO(function (env) { return f(fa(env)).run(env); }); },
@@ -254,7 +250,7 @@ var IO = function (fa) {
             });
         },
         provide: function (env) { return IO(function () { return fa(env); }); },
-        provideDefault: function (env) { return IO(function (newEnv) { return fa(__assign(__assign({}, env), newEnv)); }); },
+        provideDefault: function (env) { return IO(function (newEnv) { return fa(newEnv !== null && newEnv !== void 0 ? newEnv : env); }); },
         either: function () {
             return IO(function (env) {
                 try {

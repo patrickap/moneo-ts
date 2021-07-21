@@ -4,11 +4,8 @@ exports.Right = exports.Left = exports.Either = void 0;
 var option_1 = require("../option");
 var Left = function (l) { return ({
     ap: function (_) { return Left(l); },
-    // bimap: (_, f) => Left(f(l)),
     map: function (_) { return Left(l); },
-    // mapLeft: (f) => Left(f(l)),
     flatMap: function (_) { return Left(l); },
-    // flatMapLeft: (f) => f(l),
     isLeft: function () { return true; },
     isRight: function () { return false; },
     orElse: function (alternative) { return alternative; },
@@ -34,12 +31,9 @@ var Left = function (l) { return ({
 exports.Left = Left;
 Left.of = Left;
 var Right = function (r) { return ({
-    ap: function (applicative) { return applicative.flatMap(function (f) { return Right(r).map(f); }); },
-    // bimap: (f, _) => Right(f(r)),
+    ap: function (applicative) { return applicative.map(function (f) { return f(r); }); },
     map: function (f) { return Right(f(r)); },
-    // mapLeft: (_) => Right(r),
     flatMap: function (f) { return f(r); },
-    // flatMapLeft: (_) => Right(r),
     isLeft: function () { return false; },
     isRight: function () { return true; },
     orElse: function (_) { return Right(r); },

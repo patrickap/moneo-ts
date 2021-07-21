@@ -31,7 +31,7 @@ type Some<A> = Option<A>;
 type None = Option<never>;
 
 const Some = <A>(a: A): Some<A> => ({
-  ap: (applicative) => applicative.flatMap((f) => Some(a).map(f)),
+  ap: (applicative) => applicative.map((f) => f(a)),
   map: (f) => Some(f(a)),
   flatMap: (f) => f(a),
   isSome: () => true,

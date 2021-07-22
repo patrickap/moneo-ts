@@ -1,3 +1,15 @@
+# [1.4.0](https://github.com/patrickap/moneo-ts/compare/v1.3.5...v1.4.0) (2021-07-22)
+
+
+### Bug Fixes
+
+* **either:** flatMap type signature ([03f1621](https://github.com/patrickap/moneo-ts/commit/03f16212bf2438ffc64f90bc22a88e028ebd06b1))
+
+
+### Features
+
+* **io:** new method flatMapL which also sets the local env ([44e8dc4](https://github.com/patrickap/moneo-ts/commit/44e8dc47101fd15d6bb2adec124be41c9babab75))
+
 ## [1.3.5](https://github.com/patrickap/nomad-ts/compare/v1.3.4...v1.3.5) (2021-07-21)
 
 

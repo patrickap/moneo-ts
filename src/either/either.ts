@@ -44,7 +44,7 @@ const Left = <L>(l: L): Left<L> => ({
   getOrNull: () => null,
   getOrUndefined: () => void 0,
   get: () => {
-    throw Error('get() called on left');
+    throw Error('could not get value of type left');
   },
   fold: (_, left) => left(l),
   match: ({ Left }) => Left(l),

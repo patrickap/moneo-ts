@@ -64,7 +64,7 @@ const None: None = {
   getOrNull: () => null,
   getOrUndefined: () => void 0,
   get: () => {
-    throw Error('get() called on none');
+    throw Error('could not get value of type none');
   },
   fold: (_, none) => none(),
   match: ({ None }) => None(),

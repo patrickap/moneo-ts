@@ -7,7 +7,7 @@ import { None, Option, Some } from '../option';
 interface Either<L, R> {
   ap: <R2>(applicative: Either<L, (r: R) => R2>) => Either<L, R2>;
   map: <R2>(f: (r: R) => R2) => Either<L, R2>;
-  flatMap: <L2, R2>(f: (r: R) => Either<L2, R2>) => Either<L | L2, R | R2>;
+  flatMap: <L2, R2>(f: (r: R) => Either<L2, R2>) => Either<L | L2, R2>;
   isLeft: () => this is Left<L>;
   isRight: () => this is Right<R>;
   orElse: <L2, R2>(alternative: Either<L2, R2>) => Either<L | L2, R | R2>;

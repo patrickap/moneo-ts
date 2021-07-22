@@ -230,9 +230,21 @@ var IOAsync = function (fa) {
         transform: function (convert) { return convert(IOAsync(fa)); },
         access: function (f) { return IOAsync(function (env) { return f(env); }); },
         local: function (f) { return IOAsync(function (env) { return IOAsync(fa).run(f(env)); }); },
-        run: function (env) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
-            return [2 /*return*/, fa(env)];
-        }); }); },
+        run: function (env) { return __awaiter(void 0, void 0, void 0, function () {
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _b.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, fa(env)];
+                    case 1: return [2 /*return*/, _b.sent()];
+                    case 2:
+                        _a = _b.sent();
+                        throw Error('uncaught error when running io');
+                    case 3: return [2 /*return*/];
+                }
+            });
+        }); },
         inspect: function () { return "IOAsync(" + fa + ")"; },
     };
 };
@@ -323,7 +335,14 @@ var IO = function (fa) {
         access: function (f) { return IO(function (env) { return f(env); }); },
         local: function (f) { return IO(function (env) { return IO(fa).run(f(env)); }); },
         async: function () { return IOAsync(function (env) { return IO(fa).run(env); }); },
-        run: function (env) { return fa(env); },
+        run: function (env) {
+            try {
+                return fa(env);
+            }
+            catch (_a) {
+                throw Error('uncaught error when running io');
+            }
+        },
         inspect: function () { return "IO(" + fa + ")"; },
     };
 };

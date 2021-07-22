@@ -13,7 +13,7 @@ var Left = function (l) { return ({
     getOrNull: function () { return null; },
     getOrUndefined: function () { return void 0; },
     get: function () {
-        throw Error('get() called on left');
+        throw Error('could not get value of type left');
     },
     fold: function (_, left) { return left(l); },
     match: function (_a) {

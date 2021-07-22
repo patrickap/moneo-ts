@@ -39,7 +39,7 @@ var None = {
     getOrNull: function () { return null; },
     getOrUndefined: function () { return void 0; },
     get: function () {
-        throw Error('get() called on none');
+        throw Error('could not get value of type none');
     },
     fold: function (_, none) { return none(); },
     match: function (_a) {

@@ -69,6 +69,16 @@ var IOAsync = function (fa) {
                 case 1: return [2 /*return*/, _a.apply(void 0, [_b.sent()]).run(env)];
             }
         }); }); }); },
+        flatMapL: function (f, local) {
+            return IOAsync(function (env) { return __awaiter(void 0, void 0, void 0, function () { var _a; return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = f;
+                        return [4 /*yield*/, fa(env)];
+                    case 1: return [2 /*return*/, _a.apply(void 0, [_b.sent()]).run(local(env))];
+                }
+            }); }); });
+        },
         memoize: function () {
             return IOAsync(function (env) {
                 if (!memo)
@@ -242,6 +252,7 @@ var IO = function (fa) {
         },
         map: function (f) { return IO(function (env) { return f(fa(env)); }); },
         flatMap: function (f) { return IO(function (env) { return f(fa(env)).run(env); }); },
+        flatMapL: function (f, local) { return IO(function (env) { return f(fa(env)).run(local(env)); }); },
         memoize: function () {
             return IO(function (env) {
                 if (!memo)

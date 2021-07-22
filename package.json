@@ -4,16 +4,17 @@
   "description": "monad library for typescript",
   "license": "MIT",
   "author": "patrickap",
-  "repository": "https://github.com/patrickap/nomad-ts.git",
+  "repository": "https://github.com/patrickap/moneo-ts.git",
   "type": "commonjs",
   "main": "dist/index",
   "types": "dist/index",
   "scripts": {
     "test": "jest",
-    "watch": "jest --watch",
+    "test:watch": "jest --watch",
     "build": "tsc && typedoc",
-    "release": "npm run test && npm run build && git add . && git commit -m 'chore: new build' && dotenv semantic-release",
-    "release-dry": "dotenv semantic-release -- -d"
+    "build:update": "npm run build && git add . && git commit -m 'chore: new build' && git push",
+    "release": "npm run test && npm run build:update && dotenv semantic-release",
+    "release:dry": "dotenv semantic-release -- -d"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^5.0.1",

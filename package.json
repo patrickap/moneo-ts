@@ -1,6 +1,6 @@
 {
   "name": "moneo-ts",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "monad library for typescript",
   "license": "MIT",
   "author": "patrickap",

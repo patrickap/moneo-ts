@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/patrickap/moneo-ts/compare/v1.4.0...v1.4.1) (2021-07-22)
+
+
+### Bug Fixes
+
+* added try/catch to io run, improved error messages in general ([c533795](https://github.com/patrickap/moneo-ts/commit/c533795802605bae4144327a8bfbeef756a4ba8f))
+
 # [1.4.0](https://github.com/patrickap/moneo-ts/compare/v1.3.5...v1.4.0) (2021-07-22)
 
 

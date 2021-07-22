@@ -4,17 +4,21 @@ import { Throwable } from '../types';
 import { withCancel, withDelay, withTimeout } from '../utils';
 
 // TODO: idea for new methods
-// IO(...).provideSome (provide partial env)
 // IO.race (first resolved wins)
 // IO.all (parallel)
-// IO(...).ifFailure (side-effect)
-// IO(...).ifSuccess (side-effect)
-// IO(...).ifCancel (side-effect)
+// IO(...).provideSome (provide partial env)
+// IO(...).onFailure (side-effect)
+// IO(...).onSuccess (side-effect)
+// IO(...).onCancel (side-effect)
 
 interface IOAsync<R, A> {
   ap: <B>(applicative: IOAsync<R, (a: A) => B | Promise<B>>) => IOAsync<R, B>;
   map: <B>(f: (a: A) => B | Promise<B>) => IOAsync<R, B>;
   flatMap: <B>(f: (a: A) => IOAsync<R, B>) => IOAsync<R, B>;
+  flatMapL: <S, B>(
+    f: (a: A) => IOAsync<S, B>,
+    local: (env: R) => S,
+  ) => IOAsync<R, B>;
   memoize: () => IOAsync<R, A>;
   provide: (env: R) => IOAsync<void, A>;
   provideDefault: (env: R) => IOAsync<R | void, A>;
@@ -37,6 +41,7 @@ interface IO<R, A> {
   ap: <B>(applicative: IO<R, (a: A) => B>) => IO<R, B>;
   map: <B>(f: (a: A) => B) => IO<R, B>;
   flatMap: <B>(f: (a: A) => IO<R, B>) => IO<R, B>;
+  flatMapL: <S, B>(f: (a: A) => IO<S, B>, local: (env: R) => S) => IO<R, B>;
   memoize: () => IO<R, A>;
   provide: (env: R) => IO<void, A>;
   provideDefault: (env: R) => IO<R | void, A>;
@@ -63,6 +68,8 @@ const IOAsync = <R = void, A = unknown>(
       IOAsync((env) => applicative.map(async (f) => f(await fa(env))).run(env)),
     map: (f) => IOAsync(async (env) => f(await fa(env))),
     flatMap: (f) => IOAsync(async (env) => f(await fa(env)).run(env)),
+    flatMapL: (f, local) =>
+      IOAsync(async (env) => f(await fa(env)).run(local(env))),
     memoize: () =>
       IOAsync((env) => {
         if (!memo) memo = IOAsync(fa).run(env);
@@ -154,6 +161,7 @@ const IO = <R = void, A = unknown>(fa: (env: R) => A): IO<R, A> => {
       IO((env) => applicative.map((f) => f(fa(env))).run(env)),
     map: (f) => IO((env) => f(fa(env))),
     flatMap: (f) => IO((env) => f(fa(env)).run(env)),
+    flatMapL: (f, local) => IO((env) => f(fa(env)).run(local(env))),
     memoize: () =>
       IO((env) => {
         if (!memo) memo = IO(fa).run(env);

@@ -76,10 +76,12 @@ const None: None = {
   inspect: () => 'None',
 };
 
+function Option<A>(a: NonNullable<A>): Some<NonNullable<A>>;
 function Option<A>(a: undefined | null): None;
-function Option<A>(a: A): Some<A>;
-function Option<A>(a: A): Option<A> {
-  return isNil(a) ? None : Some(a);
+function Option<A>(a: A | null): Option<NonNullable<A>>;
+function Option<A>(a: A | undefined): Option<NonNullable<A>>;
+function Option<A>(a: A | undefined | null): Option<NonNullable<A>> {
+  return isNil(a) ? None : !isNil(a) ? Some(a as NonNullable<A>) : Option(a);
 }
 
 Option.of = Option;

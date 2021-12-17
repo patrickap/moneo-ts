@@ -113,7 +113,7 @@
 					<div class="tsd-signature tsd-kind-icon">None<span class="tsd-signature-symbol">:</span> <a href="option.html#Option-2" class="tsd-signature-type" data-tsd-kind="Function">Option</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/patrickap/moneo-ts/blob/e6bfd5c/src/option/option.ts#L31">option/option.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/patrickap/moneo-ts/blob/28d517d/src/option/option.ts#L27">option/option.ts:27</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -123,7 +123,7 @@
 					<div class="tsd-signature tsd-kind-icon">Some&lt;A&gt;<span class="tsd-signature-symbol">:</span> <a href="option.html#Option-2" class="tsd-signature-type" data-tsd-kind="Function">Option</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/patrickap/moneo-ts/blob/e6bfd5c/src/option/option.ts#L29">option/option.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/patrickap/moneo-ts/blob/28d517d/src/option/option.ts#L25">option/option.ts:25</a></li>
 						</ul>
 					</aside>
 					<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -142,7 +142,7 @@
 					<div class="tsd-signature tsd-kind-icon">None<span class="tsd-signature-symbol">:</span> <a href="option.html#None-1" class="tsd-signature-type" data-tsd-kind="Variable">None</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/patrickap/moneo-ts/blob/e6bfd5c/src/option/option.ts#L56">option/option.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/patrickap/moneo-ts/blob/28d517d/src/option/option.ts#L52">option/option.ts:52</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -152,7 +152,7 @@
 					<div class="tsd-signature tsd-kind-icon">Some<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>of<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">{ &lt;A&gt;(a: A): Some&lt;A&gt;; of: ...; }</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/patrickap/moneo-ts/blob/e6bfd5c/src/option/option.ts#L33">option/option.ts:33</a></li>
+							<li>Defined in <a href="https://github.com/patrickap/moneo-ts/blob/28d517d/src/option/option.ts#L29">option/option.ts:29</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -193,14 +193,36 @@
 					<a name="Option-2" class="tsd-anchor"></a>
 					<h3>Option</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">Option&lt;A&gt;<span class="tsd-signature-symbol">(</span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">NonNullable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="option.html#Some-2" class="tsd-signature-type" data-tsd-kind="Variable">Some</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">NonNullable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 						<li class="tsd-signature tsd-kind-icon">Option&lt;A&gt;<span class="tsd-signature-symbol">(</span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="option.html#None-1" class="tsd-signature-type" data-tsd-kind="Variable">None</a></li>
-						<li class="tsd-signature tsd-kind-icon">Option&lt;A&gt;<span class="tsd-signature-symbol">(</span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="option.html#Some-2" class="tsd-signature-type" data-tsd-kind="Variable">Some</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">Option&lt;A&gt;<span class="tsd-signature-symbol">(</span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="option.html#Option-2" class="tsd-signature-type" data-tsd-kind="Function">Option</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">NonNullable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">Option&lt;A&gt;<span class="tsd-signature-symbol">(</span>a<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="option.html#Option-2" class="tsd-signature-type" data-tsd-kind="Function">Option</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">NonNullable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/patrickap/moneo-ts/blob/e6bfd5c/src/option/option.ts#L79">option/option.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/patrickap/moneo-ts/blob/28d517d/src/option/option.ts#L75">option/option.ts:75</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>A</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>a: <span class="tsd-signature-type">NonNullable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="option.html#Some-2" class="tsd-signature-type" data-tsd-kind="Variable">Some</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">NonNullable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/patrickap/moneo-ts/blob/28d517d/src/option/option.ts#L76">option/option.ts:76</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -220,7 +242,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/patrickap/moneo-ts/blob/e6bfd5c/src/option/option.ts#L80">option/option.ts:80</a></li>
+									<li>Defined in <a href="https://github.com/patrickap/moneo-ts/blob/28d517d/src/option/option.ts#L77">option/option.ts:77</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -232,10 +254,30 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>a: <span class="tsd-signature-type">A</span></h5>
+									<h5>a: <span class="tsd-signature-type">A</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="option.html#Some-2" class="tsd-signature-type" data-tsd-kind="Variable">Some</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="option.html#Option-2" class="tsd-signature-type" data-tsd-kind="Function">Option</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">NonNullable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/patrickap/moneo-ts/blob/28d517d/src/option/option.ts#L78">option/option.ts:78</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>A</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>a: <span class="tsd-signature-type">A</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="option.html#Option-2" class="tsd-signature-type" data-tsd-kind="Function">Option</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">NonNullable</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>

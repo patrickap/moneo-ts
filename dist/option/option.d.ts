@@ -29,6 +29,15 @@ declare const Some: {
     of: any;
 };
 declare const None: None;
+declare function Option<A>(a: NonNullable<A>): Some<NonNullable<A>>;
+declare namespace Option {
+    var of: typeof Option;
+    var some: {
+        <A>(a: A): Some<A>;
+        of: any;
+    };
+    var none: None;
+}
 declare function Option<A>(a: undefined | null): None;
 declare namespace Option {
     var of: typeof Option;
@@ -38,7 +47,16 @@ declare namespace Option {
     };
     var none: None;
 }
-declare function Option<A>(a: A): Some<A>;
+declare function Option<A>(a: A | null): Option<NonNullable<A>>;
+declare namespace Option {
+    var of: typeof Option;
+    var some: {
+        <A>(a: A): Some<A>;
+        of: any;
+    };
+    var none: None;
+}
+declare function Option<A>(a: A | undefined): Option<NonNullable<A>>;
 declare namespace Option {
     var of: typeof Option;
     var some: {

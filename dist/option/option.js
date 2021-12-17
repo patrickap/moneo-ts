@@ -55,7 +55,7 @@ var None = {
 };
 exports.None = None;
 function Option(a) {
-    return utils_1.isNil(a) ? None : Some(a);
+    return utils_1.isNil(a) ? None : !utils_1.isNil(a) ? Some(a) : Option(a);
 }
 exports.Option = Option;
 Option.of = Option;

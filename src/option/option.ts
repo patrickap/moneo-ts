@@ -1,10 +1,6 @@
 import { Either, Left, Right } from '../either';
 import { isNil } from '../utils';
 
-// TODO: idea for new methods
-// Option(...).ifNone (side-effect)
-// Option(...).ifSome (side-effect)
-
 interface Option<A> {
   ap: <B>(applicative: Option<(a: A) => B>) => Option<B>;
   map: <B>(f: (a: A) => B) => Option<B>;

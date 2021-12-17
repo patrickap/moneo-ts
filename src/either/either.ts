@@ -1,9 +1,5 @@
 import { None, Option, Some } from '../option';
 
-// TODO: idea for new methods
-// Either(...).ifLeft (side-effect)
-// Either(...).ifRight (side-effect)
-
 interface Either<L, R> {
   ap: <R2>(applicative: Either<L, (r: R) => R2>) => Either<L, R2>;
   map: <R2>(f: (r: R) => R2) => Either<L, R2>;

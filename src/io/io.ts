@@ -3,14 +3,6 @@ import { None, Option, Some } from '../option';
 import { Throwable } from '../types';
 import { withCancel, withDelay, withTimeout } from '../utils';
 
-// TODO: idea for new methods
-// IO.race (first resolved wins)
-// IO.all (parallel)
-// IO(...).provideSome (provide partial env)
-// IO(...).onFailure (side-effect)
-// IO(...).onSuccess (side-effect)
-// IO(...).onCancel (side-effect)
-
 interface IOAsync<R, A> {
   ap: <B>(applicative: IOAsync<R, (a: A) => B | Promise<B>>) => IOAsync<R, B>;
   map: <B>(f: (a: A) => B | Promise<B>) => IOAsync<R, B>;

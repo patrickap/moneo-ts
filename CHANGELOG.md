@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/patrickap/moneo-ts/compare/v1.4.1...v1.4.2) (2021-12-17)
+
+
+### Bug Fixes
+
+* **io:** typed unknown errors as throwable ([ddbaf77](https://github.com/patrickap/moneo-ts/commit/ddbaf779aa6e7de3a23069c0cc478fa574f905c5))
+
 ## [1.4.1](https://github.com/patrickap/moneo-ts/compare/v1.4.0...v1.4.1) (2021-07-22)
 
 

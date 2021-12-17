@@ -82,7 +82,7 @@ const IOAsync = <R = void, A = unknown>(
         try {
           return Right(await fa(env));
         } catch (e) {
-          return Left(e);
+          return Left(e as Throwable);
         }
       }),
     option: () =>
@@ -98,7 +98,7 @@ const IOAsync = <R = void, A = unknown>(
         try {
           return await fa(env);
         } catch (e) {
-          return handle(e);
+          return handle(e as Throwable);
         }
       }),
     recoverWith: (alternative) =>
@@ -180,7 +180,7 @@ const IO = <R = void, A = unknown>(fa: (env: R) => A): IO<R, A> => {
         try {
           return Right(fa(env));
         } catch (e) {
-          return Left(e);
+          return Left(e as Throwable);
         }
       }),
     option: () =>
@@ -196,7 +196,7 @@ const IO = <R = void, A = unknown>(fa: (env: R) => A): IO<R, A> => {
         try {
           return fa(env);
         } catch (e) {
-          return handle(e);
+          return handle(e as Throwable);
         }
       }),
     recoverWith: (alternative) =>

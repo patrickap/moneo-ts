@@ -1,3 +1,10 @@
+## [1.4.3](https://github.com/patrickap/moneo-ts/compare/v1.4.2...v1.4.3) (2022-04-26)
+
+
+### Bug Fixes
+
+* **io:** memoize now works as expected ([042313e](https://github.com/patrickap/moneo-ts/commit/042313e6a6a86f9616724f442786861269190dd2))
+
 ## [1.4.2](https://github.com/patrickap/moneo-ts/compare/v1.4.1...v1.4.2) (2021-12-17)
 
 

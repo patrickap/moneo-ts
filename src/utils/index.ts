@@ -46,4 +46,14 @@ const withCancel = <T>(promise: () => Promise<T>) => {
   return { cancel, promise };
 };
 
-export { isNil, withDelay, withTimeout, withCancel };
+const memoize = <A extends any[] = any, T = unknown>(fn: (...args: A) => T) => {
+  const cache = new Map();
+  return (...args: A) => {
+    const key = JSON.stringify(args);
+    return cache.has(key)
+      ? cache.get(key)
+      : cache.set(key, fn(...args)) && cache.get(key);
+  };
+};
+
+export { isNil, withDelay, withTimeout, withCancel, memoize };

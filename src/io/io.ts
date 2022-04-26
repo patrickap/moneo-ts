@@ -1,7 +1,7 @@
 import { Either, Left, Right } from '../either';
 import { None, Option, Some } from '../option';
 import { Throwable } from '../types';
-import { withCancel, withDelay, withTimeout } from '../utils';
+import { memoize as memo, withCancel, withDelay, withTimeout } from '../utils';
 
 interface IOAsync<R, A> {
   ap: <B>(applicative: IOAsync<R, (a: A) => B | Promise<B>>) => IOAsync<R, B>;
@@ -53,8 +53,6 @@ interface IO<R, A> {
 const IOAsync = <R = void, A = unknown>(
   fa: (env: R) => A | Promise<A>,
 ): IOAsync<R, A> => {
-  let memo: Promise<A>;
-
   return {
     ap: (applicative) =>
       IOAsync((env) => applicative.map(async (f) => f(await fa(env))).run(env)),
@@ -62,11 +60,7 @@ const IOAsync = <R = void, A = unknown>(
     flatMap: (f) => IOAsync(async (env) => f(await fa(env)).run(env)),
     flatMapL: (f, local) =>
       IOAsync(async (env) => f(await fa(env)).run(local(env))),
-    memoize: () =>
-      IOAsync((env) => {
-        if (!memo) memo = IOAsync(fa).run(env);
-        return memo;
-      }),
+    memoize: () => IOAsync(memo((env) => IOAsync(fa).run(env))),
     provide: (env) => IOAsync(() => fa(env)),
     provideDefault: (env) => IOAsync((newEnv) => fa(newEnv ?? env)),
     either: () =>
@@ -152,19 +146,13 @@ IOAsync.failure = (t: Throwable) =>
 IOAsync.success = <A>(a: A) => IOAsync(() => a);
 
 const IO = <R = void, A = unknown>(fa: (env: R) => A): IO<R, A> => {
-  let memo: A;
-
   return {
     ap: (applicative) =>
       IO((env) => applicative.map((f) => f(fa(env))).run(env)),
     map: (f) => IO((env) => f(fa(env))),
     flatMap: (f) => IO((env) => f(fa(env)).run(env)),
     flatMapL: (f, local) => IO((env) => f(fa(env)).run(local(env))),
-    memoize: () =>
-      IO((env) => {
-        if (!memo) memo = IO(fa).run(env);
-        return memo;
-      }),
+    memoize: () => IO(memo((env) => IO(fa).run(env))),
     provide: (env) => IO(() => fa(env)),
     provideDefault: (env) => IO((newEnv) => fa(newEnv ?? env)),
     either: () =>

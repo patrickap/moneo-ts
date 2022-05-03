@@ -1,6 +1,6 @@
 # moneo-ts
 
-Monad library for TypeScript 🚀
+Monad library for TypeScript. 🚀
 
 ## Installation
 

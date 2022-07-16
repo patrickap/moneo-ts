@@ -127,13 +127,7 @@ const IOAsync = <R = void, A = unknown>(
     transform: (convert) => convert(IOAsync(fa)),
     access: (f) => IOAsync((env) => f(env)),
     local: (f) => IOAsync((env) => IOAsync(fa).run(f(env))),
-    run: async (env) => {
-      try {
-        return await fa(env);
-      } catch {
-        throw Error('uncaught error when running io');
-      }
-    },
+    run: async (env) => await fa(env),
     inspect: () => `IOAsync(${fa})`,
   };
 };
@@ -205,13 +199,7 @@ const IO = <R = void, A = unknown>(fa: (env: R) => A): IO<R, A> => {
     access: (f) => IO((env) => f(env)),
     local: (f) => IO((env) => IO(fa).run(f(env))),
     async: () => IOAsync((env) => IO(fa).run(env)),
-    run: (env) => {
-      try {
-        return fa(env);
-      } catch {
-        throw Error('uncaught error when running io');
-      }
-    },
+    run: (env) => fa(env),
     inspect: () => `IO(${fa})`,
   };
 };

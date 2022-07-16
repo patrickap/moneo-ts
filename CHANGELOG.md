@@ -1,3 +1,10 @@
+## [1.4.4](https://github.com/patrickap/moneo-ts/compare/v1.4.3...v1.4.4) (2022-07-16)
+
+
+### Bug Fixes
+
+* **io:** do not catch errors on run ([483ba78](https://github.com/patrickap/moneo-ts/commit/483ba783026c3ce9ae417d77e7703760d911e411))
+
 ## [1.4.3](https://github.com/patrickap/moneo-ts/compare/v1.4.2...v1.4.3) (2022-04-26)
 
 

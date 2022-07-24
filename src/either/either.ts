@@ -3,6 +3,7 @@ import { None, Option, Some } from '../option';
 interface Either<L, R> {
   ap: <R2>(applicative: Either<L, (r: R) => R2>) => Either<L, R2>;
   map: <R2>(f: (r: R) => R2) => Either<L, R2>;
+  forEach: <R2 = void>(f: (r: R) => R2) => Either<L, R>;
   flatMap: <L2, R2>(f: (r: R) => Either<L2, R2>) => Either<L | L2, R2>;
   isLeft: () => this is Left<L>;
   isRight: () => this is Right<R>;
@@ -32,6 +33,7 @@ type Right<R> = Either<never, R>;
 const Left = <L>(l: L): Left<L> => ({
   ap: (_) => Left(l),
   map: (_) => Left(l),
+  forEach: (_) => Left(l),
   flatMap: (_) => Left(l),
   isLeft: () => true,
   isRight: () => false,
@@ -58,6 +60,10 @@ Left.of = Left;
 const Right = <R>(r: R): Right<R> => ({
   ap: (applicative) => applicative.map((f) => f(r)),
   map: (f) => Right(f(r)),
+  forEach: (f) => {
+    f(r);
+    return Right(r);
+  },
   flatMap: (f) => f(r),
   isLeft: () => false,
   isRight: () => true,

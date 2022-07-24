@@ -6,6 +6,7 @@ import { memoize as memo, withCancel, withDelay, withTimeout } from '../utils';
 interface IOAsync<R, A> {
   ap: <B>(applicative: IOAsync<R, (a: A) => B | Promise<B>>) => IOAsync<R, B>;
   map: <B>(f: (a: A) => B | Promise<B>) => IOAsync<R, B>;
+  forEach: <B = void>(f: (a: A) => B | Promise<B>) => IOAsync<R, A>;
   flatMap: <B>(f: (a: A) => IOAsync<R, B>) => IOAsync<R, B>;
   flatMapL: <S, B>(
     f: (a: A) => IOAsync<S, B>,
@@ -32,6 +33,7 @@ interface IOAsync<R, A> {
 interface IO<R, A> {
   ap: <B>(applicative: IO<R, (a: A) => B>) => IO<R, B>;
   map: <B>(f: (a: A) => B) => IO<R, B>;
+  forEach: <B = void>(f: (a: A) => B) => IO<R, A>;
   flatMap: <B>(f: (a: A) => IO<R, B>) => IO<R, B>;
   flatMapL: <S, B>(f: (a: A) => IO<S, B>, local: (env: R) => S) => IO<R, B>;
   memoize: () => IO<R, A>;
@@ -57,6 +59,11 @@ const IOAsync = <R = void, A = unknown>(
     ap: (applicative) =>
       IOAsync((env) => applicative.map(async (f) => f(await fa(env))).run(env)),
     map: (f) => IOAsync(async (env) => f(await fa(env))),
+    forEach: (f) =>
+      IOAsync(async (env) => {
+        f(await fa(env));
+        return await fa(env);
+      }),
     flatMap: (f) => IOAsync(async (env) => f(await fa(env)).run(env)),
     flatMapL: (f, local) =>
       IOAsync(async (env) => f(await fa(env)).run(local(env))),
@@ -144,6 +151,11 @@ const IO = <R = void, A = unknown>(fa: (env: R) => A): IO<R, A> => {
     ap: (applicative) =>
       IO((env) => applicative.map((f) => f(fa(env))).run(env)),
     map: (f) => IO((env) => f(fa(env))),
+    forEach: (f) =>
+      IO((env) => {
+        f(fa(env));
+        return fa(env);
+      }),
     flatMap: (f) => IO((env) => f(fa(env)).run(env)),
     flatMapL: (f, local) => IO((env) => f(fa(env)).run(local(env))),
     memoize: () => IO(memo((env) => IO(fa).run(env))),

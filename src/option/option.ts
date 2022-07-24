@@ -4,6 +4,7 @@ import { isNil } from '../utils';
 interface Option<A> {
   ap: <B>(applicative: Option<(a: A) => B>) => Option<B>;
   map: <B>(f: (a: A) => B) => Option<B>;
+  forEach: <B = void>(f: (a: A) => B) => Option<A>;
   flatMap: <B>(f: (a: A) => Option<B>) => Option<B>;
   isSome: () => this is Some<A>;
   isNone: () => this is None;
@@ -29,6 +30,10 @@ type None = Option<never>;
 const Some = <A>(a: A): Some<A> => ({
   ap: (applicative) => applicative.map((f) => f(a)),
   map: (f) => Some(f(a)),
+  forEach: (f) => {
+    f(a);
+    return Some(a);
+  },
   flatMap: (f) => f(a),
   isSome: () => true,
   isNone: () => false,
@@ -52,6 +57,7 @@ Some.of = Some;
 const None: None = {
   ap: (_) => None,
   map: (_) => None,
+  forEach: (_) => None,
   flatMap: (_) => None,
   isSome: () => false,
   isNone: () => true,

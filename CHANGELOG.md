@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/patrickap/moneo-ts/compare/v1.4.4...v1.5.0) (2022-07-24)
+
+
+### Features
+
+* implemented forEach method for side effects ([ff357f5](https://github.com/patrickap/moneo-ts/commit/ff357f570c5e3e51570919e4937f7b28717b5c86))
+
 ## [1.4.4](https://github.com/patrickap/moneo-ts/compare/v1.4.3...v1.4.4) (2022-07-16)
 
 

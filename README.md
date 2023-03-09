@@ -28,11 +28,11 @@ npm install moneo-ts@x.x.x
 ```typescript
 import { Option, Some, None } from 'moneo-ts';
 
-Option(0); // -> Some<number>
-Option(''); // -> Some<string>
-Option({}); // -> Some<{}>
-Option(null); // -> None
-Option(undefined); // -> None
+Option(0); // Some<number>
+Option(''); // Some<string>
+Option({}); // Some<{}>
+Option(null); // None
+Option(undefined); // None
 ```
 
 **Either**
@@ -40,17 +40,17 @@ Option(undefined); // -> None
 ```typescript
 import { Either, Right, Left } from 'moneo-ts';
 
-Right(0); // -> Right<number>
-Right(''); // -> Right<string>
-Right({}); // -> Right<{}>
-Right(null); // -> Right<null>
-Right(undefined); // -> Right<undefined>
+Right(0); // Right<number>
+Right(''); // Right<string>
+Right({}); // Right<{}>
+Right(null); // Right<null>
+Right(undefined); // Right<undefined>
 
-Left(0); // -> Left<number>
-Left(''); // -> Left<string>
-Left({}); // -> Left<{}>
-Left(null); // -> Left<null>
-Left(undefined); // -> Left<undefined>
+Left(0); // Left<number>
+Left(''); // Left<string>
+Left({}); // Left<{}>
+Left(null); // Left<null>
+Left(undefined); // Left<undefined>
 ```
 
 **IO**
@@ -58,9 +58,8 @@ Left(undefined); // -> Left<undefined>
 ```typescript
 import { IO, IOAsync } from 'moneo-ts';
 
-// Examples
-IO(() => 1); // -> IO<void, number>
-IO((env: { a: 1 }) => env.a + 1); // -> IO<{ a: number }, number>
-IOAsync(async () => 1); // -> IOAsync<void, number>
-IOAsync(async (env: { a: 1 }) => env.a + 1); // -> IOAsync<{ a: number }, number>
+IO(() => 1); // IO<void, number>
+IO((env: { a: 1 }) => env.a + 1); // IO<{ a: number }, number>
+IOAsync(async () => 1); // IOAsync<void, number>
+IOAsync(async (env: { a: 1 }) => env.a + 1); // IOAsync<{ a: number }, number>
 ```

@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/patrickap/moneo-ts/compare/v1.5.0...v1.6.0) (2023-03-09)
+
+
+### Features
+
+* updated dependencies, new build ([0376760](https://github.com/patrickap/moneo-ts/commit/0376760c091aaa11993ba98278db2b813992d1dd))
+
 # [1.5.0](https://github.com/patrickap/moneo-ts/compare/v1.4.4...v1.5.0) (2022-07-24)
 
 

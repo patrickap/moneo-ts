@@ -155,7 +155,7 @@ const IO = <R = void, A = unknown>(fa: (env: R) => A): IO<R, A> => {
 			}),
 		flatMap: (f) => IO((env) => f(fa(env)).run(env)),
 		flatMapL: (f, local) => IO((env) => f(fa(env)).run(local(env))),
-		memoize: () => IO(memo((env) => IO(fa).run(env))),
+		memoize: () => IO(memoize((env) => IO(fa).run(env))),
 		provide: (env) => IO(() => fa(env)),
 		provideDefault: (env) => IO((newEnv) => fa(newEnv ?? env)),
 		either: () =>

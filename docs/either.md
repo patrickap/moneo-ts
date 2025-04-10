@@ -35,7 +35,7 @@ All the following methods are available on `Either`, whether `Left` or `Right`.
 
 ---
 
-### `.ap(applicative)`
+### `.ap(eitherFn)`
 
 Applies a wrapped function to the `Right` value.
 
@@ -47,7 +47,7 @@ Left('error').ap(fn); // => Left('error')
 
 ---
 
-### `.map(f)`
+### `.map(fn)`
 
 Transforms the `Right` value with a function. No effect if `Left`.
 
@@ -58,7 +58,7 @@ Left('error').map(x => x + 1); // => Left('error')
 
 ---
 
-### `.forEach(f)`
+### `.forEach(fn)`
 
 Runs a function for side effects if `Right`.
 
@@ -69,7 +69,7 @@ Left('error').forEach(x => console.log(x)); // does nothing
 
 ---
 
-### `.flatMap(f)`
+### `.flatMap(fn)`
 
 Chains another `Either`-returning function.
 
@@ -102,7 +102,7 @@ Left('error').isRight(); // => false
 
 ---
 
-### `.orElse(alternative)`
+### `.orElse(either)`
 
 Returns self if `Right`, otherwise returns the alternative `Either`.
 
@@ -113,7 +113,7 @@ Left('error').orElse(Right(10)); // => Right(10)
 
 ---
 
-### `.getOrElse(defaultValue)`
+### `.getOrElse(value)`
 
 Unwraps the `Right` value or returns a fallback.
 
@@ -175,7 +175,7 @@ Left('fail').fold(
 
 ---
 
-### `.match({ Right, Left })`
+### `.match(pattern)`
 
 Pattern matching for `Right` and `Left`.
 
@@ -205,7 +205,7 @@ Left('fail').filter(x => x > 3); // => Left('fail')
 
 ---
 
-### `.transform(f)`
+### `.transform(fn)`
 
 Transforms the entire `Either` structure.
 
@@ -228,7 +228,7 @@ Left('fail').contains(5); // => false
 
 ---
 
-### `.equals(otherEither)`
+### `.equals(either)`
 
 Compares two `Either` instances by value and type.
 
@@ -270,5 +270,3 @@ Returns a string representation.
 Right(5).inspect(); // => "Right(5)"
 Left('fail').inspect(); // => "Left(fail)"
 ```
-
----

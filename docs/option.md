@@ -47,7 +47,7 @@ All the following methods are available on `Option`, whether `Some` or `None`.
 
 ---
 
-### `.ap(applicative)`
+### `.ap(optionFn)`
 
 Applies a wrapped function to a wrapped value.
 
@@ -59,7 +59,7 @@ None.ap(fn);      // => None
 
 ---
 
-### `.map(f)`
+### `.map(fn)`
 
 Transforms the value using the provided function.
 
@@ -70,7 +70,7 @@ None.map(x => x + 1);      // => None
 
 ---
 
-### `.forEach(f)`
+### `.forEach(fn)`
 
 Executes a function for side effects if value exists.
 
@@ -81,7 +81,7 @@ None.forEach(x => console.log(x));      // logs nothing
 
 ---
 
-### `.flatMap(f)`
+### `.flatMap(fn)`
 
 Chains another `Option`-returning function.
 
@@ -114,7 +114,7 @@ None.isNone();      // => true
 
 ---
 
-### `.orElse(alternative)`
+### `.orElse(option)`
 
 Returns self if `Some`, otherwise returns the alternative.
 
@@ -125,7 +125,7 @@ None.orElse(Option(10));      // => Some(10)
 
 ---
 
-### `.getOrElse(defaultValue)`
+### `.getOrElse(value)`
 
 Unwraps the value or returns a fallback.
 
@@ -187,7 +187,7 @@ None.fold(
 
 ---
 
-### `.match({ Some, None })`
+### `.match(pattern)`
 
 Pattern matches `Some` and `None` cases.
 
@@ -216,7 +216,7 @@ Option(5).filter(x => x > 10); // => None
 
 ---
 
-### `.transform(f)`
+### `.transform(fn)`
 
 Transforms the entire Option object into something else.
 
@@ -239,7 +239,7 @@ None.contains(5);       // => false
 
 ---
 
-### `.equals(otherOption)`
+### `.equals(option)`
 
 Compares two Options for value and type equality.
 

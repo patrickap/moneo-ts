@@ -11,7 +11,7 @@ Both types are **lazy** — nothing executes until `.run(env)` is called.
 
 ## API
 
-### `IO(f)` / `IOAsync(f)`
+### `IO(fn)` / `IOAsync(fn)`
 
 Creates an `IO` instance. 
 
@@ -31,7 +31,7 @@ IOAsync.of(5); // => IOAsync<void, 5>
 
 ---
 
-### `IO.failure(error)` / `IOAsync.failure(error)`
+### `IO.failure(value)` / `IOAsync.failure(value)`
 
 Creates a failing computation.
 
@@ -59,7 +59,7 @@ Most of the following methods are available on both `IO` and `IOAsync`.
 
 ---
 
-### `.ap(applicative)`
+### `.ap(ioFn)`
 
 Applies a wrapped function to a wrapped value.
 
@@ -73,7 +73,7 @@ IOAsync.of(3).ap(asyncFn); // => IOAsync<void, 6>
 
 ---
 
-### `.map(f)`
+### `.map(fn)`
 
 Transforms the result of the computation.
 
@@ -84,7 +84,7 @@ IOAsync.of(5).map(async x => x * 2); // => IOAsync<void, Promise<10>>
 
 ---
 
-### `.forEach(f)`
+### `.forEach(fn)`
 
 Runs a side-effecting function and returns the original value.
 
@@ -96,7 +96,7 @@ IOAsync.of(5).forEach(async x => console.log(x)); // logs 5
 
 ---
 
-### `.flatMap(f)`
+### `.flatMap(fn)`
 
 Chains another computation that returns `IO` or `IOAsync`.
 
@@ -107,7 +107,7 @@ IOAsync.of(5).flatMap(x => IOAsync.of(x + 1)); // => IOAsync<void, 6>
 
 ---
 
-### `.flatMapL(f, local)`
+### `.flatMapL(fn, local)`
 
 Maps the value while locally transforming the environment.
 
@@ -170,7 +170,7 @@ IO.of(10).option(); // => Some(10)
 
 ---
 
-### `.recover(f)`
+### `.recover(fn)`
 
 Error handling via fallback handler.
 
@@ -190,7 +190,7 @@ IO(() => { throw 'err'; }).recoverWith(IO.of('alt')); // => IO<void, 'alt'>
 
 ---
 
-### `.retry(amount)`
+### `.retry(count)`
 
 Retries the computation on failure.
 
@@ -200,7 +200,7 @@ IO(() => { throw 'fail'; }).retry(3); // => retries 3 times
 
 ---
 
-### `.delay(ms)` (`IOAsync` only)
+### `.delay(time)` (`IOAsync` only)
 
 Delays execution by milliseconds.
 
@@ -210,7 +210,7 @@ IOAsync.of(5).delay(1000); // => IOAsync<void, 5> (after 1s)
 
 ---
 
-### `.timeout(ms)` (`IOAsync` only)
+### `.timeout(time)` (`IOAsync` only)
 
 Throws error if not resolved within time.
 
@@ -231,7 +231,7 @@ IOAsync.of(5).cancel(); // => IOAsync<void, never>
 
 ---
 
-### `.transform(f)`
+### `.transform(fn)`
 
 Applies a custom transformation to the entire IO/IOAsync structure.
 
@@ -241,7 +241,7 @@ IO.of(5).transform(io => io.map(x => x * 2)); // => IO<void, 10>
 
 ---
 
-### `.access(f)`
+### `.access(fn)`
 
 Extracts a value from the environment.
 
@@ -251,7 +251,7 @@ IO.access((env: string) => env.length); // => IO<string, number>
 
 ---
 
-### `.local(f)`
+### `.local(fn)`
 
 Transforms the environment type.
 

@@ -8,7 +8,7 @@ This library includes a set of powerful tools to write predictable, immutable, a
 
 - [Option](docs/option.md) monad
 - [Either](docs/either.md) monad
-- [IO](docs/io.md) / [Async IO](docs/io.md) monad
+- [IO](docs/io.md) monad
 
 ## Installation
 

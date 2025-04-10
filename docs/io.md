@@ -1,9 +1,9 @@
 # IO Monad
 
-Functional, environment-aware monads for modeling **pure computations (`IO`)** and **async side effects (`IOAsync`)** that depend on an input context.
+The `IO` type represents a computation that produces a value and may have side effects. It can be either synchronous or asynchronous:
 
-- `IO<R, A>` — Pure computation depending on environment `R`, producing result `A`.
-- `IOAsync<R, A>` — Async computation depending on environment `R`, producing `Promise<A>`.
+- `IO(value)` — Represents a synchronous (blocking) computation that will return a value.
+- `IOAsync(value)` — Represents an asynchronous (non-blocking) computation that will return a value, typically used for tasks like network requests or file I/O.
 
 Both types are **lazy** — nothing executes until `.run(env)` is called.
 
@@ -31,10 +31,6 @@ IOAsync.of(5); // => IOAsync<void, 5>
 
 ---
 
-### `IO.success(value)` / `IOAsync.success(value)`
-
-Alias for `of(value)`.
-
 ### `IO.failure(error)` / `IOAsync.failure(error)`
 
 Creates a failing computation.
@@ -42,6 +38,12 @@ Creates a failing computation.
 ```ts
 IO.failure(new Error('fail')); // throws on run
 ```
+
+---
+
+### `IO.success(value)` / `IOAsync.success(value)`
+
+Alias for `of(value)`.
 
 ---
 
@@ -54,28 +56,6 @@ Reference to `IOAsync` for ease of use.
 ## Methods
 
 Most of the following methods are available on both `IO` and `IOAsync`.
-
----
-
-### `.map(f)`
-
-Transforms the result of the computation.
-
-```ts
-IO.of(5).map(x => x * 2); // => IO<void, 10>
-IOAsync.of(5).map(async x => x * 2); // => IOAsync<void, Promise<10>>
-```
-
----
-
-### `.flatMap(f)`
-
-Chains another computation that returns `IO` or `IOAsync`.
-
-```ts
-IO.of(5).flatMap(x => IO.of(x + 1)); // => IO<void, 6>
-IOAsync.of(5).flatMap(x => IOAsync.of(x + 1)); // => IOAsync<void, 6>
-```
 
 ---
 
@@ -93,6 +73,17 @@ IOAsync.of(3).ap(asyncFn); // => IOAsync<void, 6>
 
 ---
 
+### `.map(f)`
+
+Transforms the result of the computation.
+
+```ts
+IO.of(5).map(x => x * 2); // => IO<void, 10>
+IOAsync.of(5).map(async x => x * 2); // => IOAsync<void, Promise<10>>
+```
+
+---
+
 ### `.forEach(f)`
 
 Runs a side-effecting function and returns the original value.
@@ -101,6 +92,17 @@ Runs a side-effecting function and returns the original value.
 IO.of(5).forEach(console.log); // logs 5
 
 IOAsync.of(5).forEach(async x => console.log(x)); // logs 5
+```
+
+---
+
+### `.flatMap(f)`
+
+Chains another computation that returns `IO` or `IOAsync`.
+
+```ts
+IO.of(5).flatMap(x => IO.of(x + 1)); // => IO<void, 6>
+IOAsync.of(5).flatMap(x => IOAsync.of(x + 1)); // => IOAsync<void, 6>
 ```
 
 ---
@@ -126,12 +128,21 @@ io.run(); // => always same value
 
 ---
 
-### `.provide(env)` / `.provideDefault(env)`
+### `.provide(env)`
 
-Injects an environment or uses a fallback if `undefined`.
+Injects an environment.
 
 ```ts
 IO((env: string) => env.length).provide('hello'); // => IO<void, 5>
+```
+
+---
+
+### `.provideDefault(env)`
+
+Injects a default environment if not provided.
+
+```ts
 IO((env?: string) => env?.length ?? 0).provideDefault('hi'); // => IO<void, 2>
 ```
 
@@ -159,12 +170,21 @@ IO.of(10).option(); // => Some(10)
 
 ---
 
-### `.recover(f)` / `.recoverWith(io)`
+### `.recover(f)`
 
-Error handling via fallback value or computation.
+Error handling via fallback handler.
 
 ```ts
 IO(() => { throw 'err'; }).recover(e => 'default'); // => IO<void, 'default'>
+```
+
+---
+
+### `.recoverWith(io)`
+
+Error handling via fallback value.
+
+```ts
 IO(() => { throw 'err'; }).recoverWith(IO.of('alt')); // => IO<void, 'alt'>
 ```
 

@@ -1,15 +1,15 @@
 # Either Monad
 
-A functional `Either` monad implementation that represents a computation with two possible outcomes: a success (`Right`) or a failure (`Left`).
+The `Either` type represents a value that can be one of two possible outcomes.
 
-- `Right(value)` — Represents a success case.
-- `Left(error)` — Represents a failure or error case.
+- `Right(value)` — Represents a successful or valid result (typically used to represent the "success" case).
+- `Left(value)` — Represents an error or failure (typically used to represent the "error" case).
 
 ---
 
 ## API
 
-### `Right(value)` / `Either.right(value)`
+### `Right(value)` / `Right.of(value)` / `Either.right(value)`
 
 Creates a `Right` instance wrapping a successful value.
 
@@ -19,7 +19,7 @@ Right(5); // => Right(5)
 
 ---
 
-### `Left(error)` / `Either.left(value)`
+### `Left(value)` / `Left.of(value)` / `Either.left(value)`
 
 Creates a `Left` instance wrapping an error or failure value.
 
@@ -35,28 +35,6 @@ All the following methods are available on `Either`, whether `Left` or `Right`.
 
 ---
 
-### `.map(f)`
-
-Transforms the `Right` value with a function. No effect if `Left`.
-
-```ts
-Right(5).map(x => x + 1); // => Right(6)
-Left('error').map(x => x + 1); // => Left('error')
-```
-
----
-
-### `.flatMap(f)`
-
-Chains another `Either`-returning function.
-
-```ts
-Right(5).flatMap(x => Right(x + 1)); // => Right(6)
-Left('error').flatMap(x => Right(x + 1)); // => Left('error')
-```
-
----
-
 ### `.ap(applicative)`
 
 Applies a wrapped function to the `Right` value.
@@ -65,6 +43,17 @@ Applies a wrapped function to the `Right` value.
 const fn = Right((x: number) => x * 3);
 Right(5).ap(fn); // => Right(15)
 Left('error').ap(fn); // => Left('error')
+```
+
+---
+
+### `.map(f)`
+
+Transforms the `Right` value with a function. No effect if `Left`.
+
+```ts
+Right(5).map(x => x + 1); // => Right(6)
+Left('error').map(x => x + 1); // => Left('error')
 ```
 
 ---
@@ -80,13 +69,13 @@ Left('error').forEach(x => console.log(x)); // does nothing
 
 ---
 
-### `.isRight()`
+### `.flatMap(f)`
 
-Returns `true` if the value is a `Right`.
+Chains another `Either`-returning function.
 
 ```ts
-Right(5).isRight(); // => true
-Left('error').isRight(); // => false
+Right(5).flatMap(x => Right(x + 1)); // => Right(6)
+Left('error').flatMap(x => Right(x + 1)); // => Left('error')
 ```
 
 ---
@@ -98,6 +87,17 @@ Returns `true` if the value is a `Left`.
 ```ts
 Right(5).isLeft(); // => false
 Left('error').isLeft(); // => true
+```
+
+---
+
+### `.isRight()`
+
+Returns `true` if the value is a `Right`.
+
+```ts
+Right(5).isRight(); // => true
+Left('error').isRight(); // => false
 ```
 
 ---

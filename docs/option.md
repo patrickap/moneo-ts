@@ -9,7 +9,7 @@ The `Option` type represents a value that may or may not be present.
 
 ## API
 
-### `Option(value)` / Option.of(value)
+### `Option(value)` / `Option.of(value)`
 
 Creates an `Option`. Returns `Some(value)` if value is non-null/non-undefined, otherwise returns `None`.
 
@@ -47,28 +47,6 @@ All the following methods are available on `Option`, whether `Some` or `None`.
 
 ---
 
-### `.map(f)`
-
-Transforms the value using the provided function.
-
-```ts
-Option(5).map(x => x + 1); // => Some(6)
-None.map(x => x + 1);      // => None
-```
-
----
-
-### `.flatMap(f)`
-
-Chains another `Option`-returning function.
-
-```ts
-Option(5).flatMap(x => Option(x + 1)); // => Some(6)
-None.flatMap(x => Option(x + 1));      // => None
-```
-
----
-
 ### `.ap(applicative)`
 
 Applies a wrapped function to a wrapped value.
@@ -81,6 +59,17 @@ None.ap(fn);      // => None
 
 ---
 
+### `.map(f)`
+
+Transforms the value using the provided function.
+
+```ts
+Option(5).map(x => x + 1); // => Some(6)
+None.map(x => x + 1);      // => None
+```
+
+---
+
 ### `.forEach(f)`
 
 Executes a function for side effects if value exists.
@@ -88,6 +77,17 @@ Executes a function for side effects if value exists.
 ```ts
 Option(5).forEach(x => console.log(x)); // logs 5
 None.forEach(x => console.log(x));      // logs nothing
+```
+
+---
+
+### `.flatMap(f)`
+
+Chains another `Option`-returning function.
+
+```ts
+Option(5).flatMap(x => Option(x + 1)); // => Some(6)
+None.flatMap(x => Option(x + 1));      // => None
 ```
 
 ---

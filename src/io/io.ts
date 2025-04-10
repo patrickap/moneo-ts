@@ -1,7 +1,7 @@
 import { Either, Left, Right } from "../either";
 import { None, Option, Some } from "../option";
 import type { Throwable } from "../types";
-import { cancel, delay, memoize as memo, timeout } from "../utils";
+import { cancel, delay, memoize, timeout } from "../utils";
 
 interface IOAsync<R, A> {
 	ap: <B>(applicative: IOAsync<R, (a: A) => B | Promise<B>>) => IOAsync<R, B>;
@@ -67,7 +67,7 @@ const IOAsync = <R = void, A = unknown>(
 		flatMap: (f) => IOAsync(async (env) => f(await fa(env)).run(env)),
 		flatMapL: (f, local) =>
 			IOAsync(async (env) => f(await fa(env)).run(local(env))),
-		memoize: () => IOAsync(memo((env) => IOAsync(fa).run(env))),
+		memoize: () => IOAsync(memoize((env) => IOAsync(fa).run(env))),
 		provide: (env) => IOAsync(() => fa(env)),
 		provideDefault: (env) => IOAsync((newEnv) => fa(newEnv ?? env)),
 		either: () =>

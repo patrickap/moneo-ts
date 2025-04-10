@@ -1,3 +1,3 @@
-type Throwable = Error | Object;
+type Throwable = Error | unknown;
 
-export { Throwable };
+export type { Throwable };

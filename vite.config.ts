@@ -4,13 +4,14 @@ import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
+import packageJson from "./package.json";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
 	build: {
 		lib: {
-			name: "moneo-ts",
+			name: packageJson.name,
 			entry: resolve(__dirname, "src/index.ts"),
 		},
 	},

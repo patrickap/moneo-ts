@@ -13,9 +13,9 @@
 	"module": "./dist/moneo-ts.js",
 	"exports": {
 		".": {
+			"types": "./dist/index.d.ts",
 			"import": "./dist/moneo-ts.js",
-			"require": "./dist/moneo-ts.umd.cjs",
-			"types": "./dist/index.d.ts"
+			"require": "./dist/moneo-ts.umd.cjs"
 		}
 	},
 	"types": "./dist/index",
@@ -24,10 +24,11 @@
 		"test:coverage": "vitest run --coverage",
 		"build": "tsc && vite build",
 		"release": "npm run test && npm run build && dotenv semantic-release",
-		"release:dry": "dotenv semantic-release -- -d"
+		"release:dry": "dotenv -- semantic-release -d"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
+		"@types/node": "^22.14.0",
 		"dotenv-cli": "^8.0.0",
 		"semantic-release": "^24.2.3",
 		"typescript": "^5.8.3",

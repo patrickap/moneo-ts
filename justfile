@@ -8,7 +8,7 @@ set_version type:
 
 [private]
 npm_publish:
-  @npm publish
+  @npm publish --access public
 
 [private]
 git_publish:

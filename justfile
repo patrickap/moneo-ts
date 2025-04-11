@@ -4,7 +4,7 @@ get_version:
 
 [private]
 set_version type:
-  @npm version {{type}}
+  @npm version {{type}} --no-git-tag-version
 
 [private]
 npm_publish:

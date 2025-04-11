@@ -19,23 +19,6 @@ git_publish:
   @git push --tags origin
 
 [private]
-get_release_type:
-  #!/usr/bin/env bash
-  set -euo pipefail
-  latest_tag=$(git describe --tags --abbrev=0)
-  commits=$(git log $latest_tag..HEAD --pretty=format:"%B")
-
-  if echo "$commits" | grep -q "BREAKING"; then
-    release_type="major";
-  elif echo "$commits" | grep -q "^feat"; then
-    release_type="minor";
-  else
-    release_type="patch";
-  fi;
-
-  echo "Determined release type: $release_type"
-
-[private]
 release_patch:
   @just set_version patch
   @just npm_publish
@@ -53,5 +36,23 @@ release_major:
   @just npm_publish
   @just git_publish
 
-release type:
+[private]
+release_auto:
+  #!/usr/bin/env bash
+  set -euo pipefail
+  latest_tag=$(git describe --tags --abbrev=0)
+  new_commits=$(git log $latest_tag..HEAD --pretty=format:"%B")
+
+  if echo "$new_commits" | grep -q "BREAKING"; then
+    just release_major;
+    exit 0
+  elif echo "$new_commits" | grep -q "^feat"; then
+    just release_minor;
+    exit 0
+  else
+    just release_patch;
+    exit 0
+  fi;
+
+release type="auto":
   @just release_{{type}}

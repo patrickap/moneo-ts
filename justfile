@@ -19,6 +19,23 @@ git_publish:
   @git push --tags origin
 
 [private]
+get_release_type:
+  #!/usr/bin/env bash
+  set -euo pipefail
+  latest_tag=$(git describe --tags --abbrev=0)
+  commits=$(git log $latest_tag..HEAD --pretty=format:"%B")
+
+  if echo "$commits" | grep -q "BREAKING"; then
+    release_type="major";
+  elif echo "$commits" | grep -q "^feat"; then
+    release_type="minor";
+  else
+    release_type="patch";
+  fi;
+
+  echo "Determined release type: $release_type"
+
+[private]
 release_patch:
   @just set_version patch
   @just npm_publish

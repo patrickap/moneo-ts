@@ -282,7 +282,7 @@ IOAsync.of(5).run(); // => Promise<5>
 
 ---
 
-### `.inspect()`
+### `.inspect(options)`
 
 Returns a string representation.
 

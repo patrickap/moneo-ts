@@ -1,3 +1,4 @@
+import { type InspectOptions, inspect } from "node:util";
 import { None, type Option, Some } from "~/adts/option";
 
 export interface Either<L, R> {
@@ -23,7 +24,7 @@ export interface Either<L, R> {
 	equals: <L2, R2>(compare: Either<L2, R2>) => boolean;
 	swap: () => Either<R, L>;
 	option: () => Option<R>;
-	inspect: () => string;
+	inspect: (options?: InspectOptions) => string;
 }
 
 export type Left<L> = Either<L, never>;
@@ -52,7 +53,7 @@ export const Left = <L>(l: L): Left<L> => ({
 	equals: (compare) => compare.isLeft() && compare.contains(l),
 	swap: () => Right(l),
 	option: () => None,
-	inspect: () => `Left(${l})`,
+	inspect: (options) => `Left(${inspect(l, options)})`,
 });
 
 Left.of = Left;
@@ -80,7 +81,7 @@ export const Right = <R>(r: R): Right<R> => ({
 	equals: (compare) => compare.isRight() && compare.contains(r),
 	swap: () => Left(r),
 	option: () => Some(r),
-	inspect: () => `Right(${r})`,
+	inspect: (options) => `Right(${inspect(r, options)})`,
 });
 
 Right.of = Right;

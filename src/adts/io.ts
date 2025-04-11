@@ -1,3 +1,4 @@
+import { type InspectOptions, inspect } from "node:util";
 import { type Either, Left, Right } from "~/adts/either";
 import { None, type Option, Some } from "~/adts/option";
 import type { Throwable } from "~/types";
@@ -27,7 +28,7 @@ export interface IOAsync<R, A> {
 	access: <B>(f: (env: R) => B | Promise<B>) => IOAsync<R, B>;
 	local: <S = R>(f: (env: S) => R) => IOAsync<S, A>;
 	run: (env: R) => Promise<A>;
-	inspect: () => string;
+	inspect: (options?: InspectOptions) => string;
 }
 
 export interface IO<R, A> {
@@ -49,7 +50,7 @@ export interface IO<R, A> {
 	local: <S = R>(f: (env: S) => R) => IO<S, A>;
 	async: () => IOAsync<R, A>;
 	run: (env: R) => A;
-	inspect: () => string;
+	inspect: (options?: InspectOptions) => string;
 }
 
 export const IOAsync = <R = void, A = unknown>(
@@ -132,7 +133,7 @@ export const IOAsync = <R = void, A = unknown>(
 		access: (f) => IOAsync((env) => f(env)),
 		local: (f) => IOAsync((env) => IOAsync(fa).run(f(env))),
 		run: async (env) => await fa(env),
-		inspect: () => `IOAsync(${fa})`,
+		inspect: (options) => `IOAsync(${inspect(fa, options)})`,
 	};
 };
 
@@ -209,7 +210,7 @@ export const IO = <R = void, A = unknown>(fa: (env: R) => A): IO<R, A> => {
 		local: (f) => IO((env) => IO(fa).run(f(env))),
 		async: () => IOAsync((env) => IO(fa).run(env)),
 		run: (env) => fa(env),
-		inspect: () => `IO(${fa})`,
+		inspect: (options) => `IO(${inspect(fa, options)})`,
 	};
 };
 

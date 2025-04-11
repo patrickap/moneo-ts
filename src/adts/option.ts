@@ -1,3 +1,4 @@
+import { type InspectOptions, inspect } from "node:util";
 import { type Either, Left, Right } from "~/adts/either";
 import { isNil } from "~/utils";
 
@@ -20,7 +21,7 @@ export interface Option<A> {
 	contains: (value: unknown) => boolean;
 	equals: <B>(compare: Option<B>) => boolean;
 	either: () => Either<null, A>;
-	inspect: () => string;
+	inspect: (options?: InspectOptions) => string;
 }
 
 export type Some<A> = Option<A>;
@@ -49,7 +50,7 @@ export const Some = <A>(a: A): Some<A> => ({
 	contains: (value) => a === value,
 	equals: (compare) => compare.isSome() && compare.contains(a),
 	either: () => Right(a),
-	inspect: () => `Some(${a})`,
+	inspect: (options) => `Some(${inspect(a, options)})`,
 });
 
 Some.of = Some;

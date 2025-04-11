@@ -263,7 +263,7 @@ None.either();      // => Left(null)
 
 ---
 
-### `.inspect()`
+### `.inspect(options)`
 
 Returns a string description of the Option.
 

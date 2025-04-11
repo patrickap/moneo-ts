@@ -262,7 +262,7 @@ Left('fail').option(); // => None
 
 ---
 
-### `.inspect()`
+### `.inspect(options)`
 
 Returns a string representation.
 

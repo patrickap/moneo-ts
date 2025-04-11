@@ -4,7 +4,10 @@
 	"description": "monad library for typescript",
 	"license": "MIT",
 	"author": "patrickap",
-	"repository": "https://github.com/patrickap/moneo-ts.git",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/patrickap/moneo-ts.git"
+	},
 	"type": "module",
 	"files": [
 		"./dist"

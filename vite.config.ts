@@ -3,6 +3,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
+import { nodePolyfills } from "vite-plugin-node-polyfills";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -21,5 +22,8 @@ export default defineConfig({
 	test: {
 		watch: false,
 	},
-	plugins: [dts({ exclude: ["**/*.test.ts"] })],
+	plugins: [
+		nodePolyfills({ include: ["util"], protocolImports: true }),
+		dts({ exclude: ["**/*.test.ts"] }),
+	],
 });

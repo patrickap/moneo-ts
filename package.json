@@ -1,5 +1,5 @@
 {
-	"name": "@patrickap/moneo-ts",
+	"name": "moneo-ts",
 	"version": "1.7.1",
 	"description": "monad library for typescript",
 	"license": "MIT",

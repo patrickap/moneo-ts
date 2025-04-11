@@ -1,8 +1,8 @@
 {
 	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
 	"files": {
-		"include": ["**/*.js", "**/*.ts", "**/*.vue"],
-		"ignore": [".nuxt", ".output", "node_modules"]
+		"include": ["**/*.js", "**/*.ts"],
+		"ignore": ["node_modules", "dist"]
 	},
 	"formatter": {
 		"enabled": true

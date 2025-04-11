@@ -11,7 +11,7 @@ The `Option` type represents a value that may or may not be present.
 
 ### `Option(value)` / `Option.of(value)`
 
-Creates an `Option`. Returns `Some(value)` if value is non-null/non-undefined, otherwise returns `None`.
+Creates an `Option`. Returns `Some(value)` if value is non-null / non-undefined, otherwise returns `None`.
 
 ```ts
 Option(5);      // => Some(5)
@@ -47,14 +47,14 @@ All the following methods are available on `Option`, whether `Some` or `None`.
 
 ---
 
-### `.ap(optionFn)`
+### `.ap(applicative)`
 
 Applies a wrapped function to a wrapped value.
 
 ```ts
-const fn = Option((x: number) => x * 3);
+const fn = Option(x => x * 3);
 Option(5).ap(fn); // => Some(15)
-None.ap(fn);      // => None
+None.ap(fn); // => None
 ```
 
 ---
@@ -65,7 +65,7 @@ Transforms the value using the provided function.
 
 ```ts
 Option(5).map(x => x + 1); // => Some(6)
-None.map(x => x + 1);      // => None
+None.map(x => x + 1); // => None
 ```
 
 ---
@@ -75,8 +75,8 @@ None.map(x => x + 1);      // => None
 Executes a function for side effects if value exists.
 
 ```ts
-Option(5).forEach(x => console.log(x)); // logs 5
-None.forEach(x => console.log(x));      // logs nothing
+Option(5).forEach(x => console.log(x)); // => logs 5
+None.forEach(x => console.log(x)); // => logs nothing
 ```
 
 ---
@@ -87,29 +87,29 @@ Chains another `Option`-returning function.
 
 ```ts
 Option(5).flatMap(x => Option(x + 1)); // => Some(6)
-None.flatMap(x => Option(x + 1));      // => None
+None.flatMap(x => Option(x + 1)); // => None
 ```
 
 ---
 
 ### `.isSome()`
 
-Checks if the Option is a `Some`.
+Checks if the `Option` is a `Some`.
 
 ```ts
 Option(5).isSome(); // => true
-None.isSome();      // => false
+None.isSome(); // => false
 ```
 
 ---
 
 ### `.isNone()`
 
-Checks if the Option is a `None`.
+Checks if the `Option` is a `None`.
 
 ```ts
 Option(5).isNone(); // => false
-None.isNone();      // => true
+None.isNone(); // => true
 ```
 
 ---
@@ -120,7 +120,7 @@ Returns self if `Some`, otherwise returns the alternative.
 
 ```ts
 Option(5).orElse(Option(10)); // => Some(5)
-None.orElse(Option(10));      // => Some(10)
+None.orElse(Option(10)); // => Some(10)
 ```
 
 ---
@@ -131,7 +131,7 @@ Unwraps the value or returns a fallback.
 
 ```ts
 Option(5).getOrElse(99); // => 5
-None.getOrElse(99);      // => 99
+None.getOrElse(99); // => 99
 ```
 
 ---
@@ -142,7 +142,7 @@ Returns the value or `null`.
 
 ```ts
 Option(5).getOrNull(); // => 5
-None.getOrNull();      // => null
+None.getOrNull(); // => null
 ```
 
 ---
@@ -153,7 +153,7 @@ Returns the value or `undefined`.
 
 ```ts
 Option(5).getOrUndefined(); // => 5
-None.getOrUndefined();      // => undefined
+None.getOrUndefined(); // => undefined
 ```
 
 ---
@@ -164,7 +164,7 @@ Unwraps the value. Throws if `None`.
 
 ```ts
 Option(5).get(); // => 5
-None.get();      // => throws Error
+None.get(); // => throws Error
 ```
 
 ---
@@ -195,12 +195,12 @@ Pattern matches `Some` and `None` cases.
 Option(5).match({
   Some: x => `Got ${x}`,
   None: () => 'Nothing'
-}); // => "Got 5"
+}); // => Got 5
 
 None.match({
   Some: x => `Got ${x}`,
   None: () => 'Nothing'
-}); // => "Nothing"
+}); // => Nothing
 ```
 
 ---
@@ -218,11 +218,18 @@ Option(5).filter(x => x > 10); // => None
 
 ### `.transform(fn)`
 
-Transforms the entire Option object into something else.
+Transforms the entire `Option` object into something else.
 
 ```ts
-Option(5).transform(opt => opt.getOrElse(0) + 1); // => 6
-None.transform(opt => opt.getOrElse(0) + 1);      // => 1
+Option(5).transform(opt => opt.isSome()
+  ? Some('success')
+  : Some('default')
+); // => Some('success')
+
+None.transform(opt => opt.isSome()
+  ? Some('success')
+  : Some('default')
+); // => Some('default')
 ```
 
 ---
@@ -232,22 +239,22 @@ None.transform(opt => opt.getOrElse(0) + 1);      // => 1
 Checks if the value inside matches the given one.
 
 ```ts
-Option(5).contains(5);  // => true
+Option(5).contains(5); // => true
 Option(5).contains(10); // => false
-None.contains(5);       // => false
+None.contains(5); // => false
 ```
 
 ---
 
 ### `.equals(option)`
 
-Compares two Options for value and type equality.
+Compares two `Options` for value and type equality.
 
 ```ts
 Option(5).equals(Option(5)); // => true
 Option(5).equals(Option(10)); // => false
-Option(5).equals(None);       // => false
-None.equals(None);            // => true
+Option(5).equals(None); // => false
+None.equals(None); // => true
 ```
 
 ---
@@ -258,16 +265,16 @@ Converts `Option` to `Either<null, A>`. Returns `Right` if `Some`, otherwise `Le
 
 ```ts
 Option(5).either(); // => Right(5)
-None.either();      // => Left(null)
+None.either(); // => Left(null)
 ```
 
 ---
 
 ### `.inspect(options)`
 
-Returns a string description of the Option.
+Returns a string description of the `Option`.
 
 ```ts
-Option(5).inspect(); // => 'Some(5)'
-None.inspect();      // => 'None'
+Option(5).inspect(); // => Some(5)
+None.inspect(); // => None
 ```

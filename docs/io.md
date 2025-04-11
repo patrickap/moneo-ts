@@ -36,20 +36,20 @@ IOAsync.of(5); // => IOAsync<void, 5>
 Creates a failing computation.
 
 ```ts
-IO.failure(new Error('fail')); // throws on run
+IO.failure(new Error('error')); // => throws on run
 ```
 
 ---
 
 ### `IO.success(value)` / `IOAsync.success(value)`
 
-Alias for `of(value)`.
+Alias for `IO.of(value)` / `IOAsync.of(value)`.
 
 ---
 
-### `IO.async`
+### `IO.async()`
 
-Reference to `IOAsync` for ease of use.
+Reference to `IOAsync()` for ease of use.
 
 ---
 
@@ -59,16 +59,16 @@ Most of the following methods are available on both `IO` and `IOAsync`.
 
 ---
 
-### `.ap(ioFn)`
+### `.ap(applicative)`
 
 Applies a wrapped function to a wrapped value.
 
 ```ts
-const fn = IO.of((x: number) => x + 1);
+const fn = IO.of(x => x + 1);
 IO.of(2).ap(fn); // => IO<void, 3>
 
-const asyncFn = IOAsync.of((x: number) => x * 2);
-IOAsync.of(3).ap(asyncFn); // => IOAsync<void, 6>
+const fn = IOAsync.of(x => x * 2);
+IOAsync.of(3).ap(fn); // => IOAsync<void, 6>
 ```
 
 ---
@@ -79,7 +79,7 @@ Transforms the result of the computation.
 
 ```ts
 IO.of(5).map(x => x * 2); // => IO<void, 10>
-IOAsync.of(5).map(async x => x * 2); // => IOAsync<void, Promise<10>>
+IOAsync.of(5).map(async x => x * 2); // => IOAsync<void, 10>
 ```
 
 ---
@@ -89,9 +89,8 @@ IOAsync.of(5).map(async x => x * 2); // => IOAsync<void, Promise<10>>
 Runs a side-effecting function and returns the original value.
 
 ```ts
-IO.of(5).forEach(console.log); // logs 5
-
-IOAsync.of(5).forEach(async x => console.log(x)); // logs 5
+IO.of(5).forEach(console.log); // => logs 5
+IOAsync.of(5).forEach(async x => console.log(x)); // => logs 5
 ```
 
 ---
@@ -112,7 +111,7 @@ IOAsync.of(5).flatMap(x => IOAsync.of(x + 1)); // => IOAsync<void, 6>
 Maps the value while locally transforming the environment.
 
 ```ts
-IO.of(1).flatMapL(a => IO.of(a + 1), env => env); // => IO<R, 2>
+IO.of(1).flatMapL(a => IO.of(a + 1), env => env.a); // => IO<R, 2>
 ```
 
 ---
@@ -133,17 +132,17 @@ io.run(); // => always same value
 Injects an environment.
 
 ```ts
-IO((env: string) => env.length).provide('hello'); // => IO<void, 5>
+IO(env => env.length).provide('hello').run(); // => 5
 ```
 
 ---
 
 ### `.provideDefault(env)`
 
-Injects a default environment if not provided.
+Injects a default environment as fallback.
 
 ```ts
-IO((env?: string) => env?.length ?? 0).provideDefault('hi'); // => IO<void, 2>
+IO(env => env.length).provideDefault('hello').run('hey'); // => 3
 ```
 
 ---
@@ -164,7 +163,7 @@ IO.of(5).either(); // => Right(5)
 Converts result into `Option<A>`.
 
 ```ts
-IO(() => { throw 'fail'; }).option(); // => None
+IO(() => { throw 'error'; }).option(); // => None
 IO.of(10).option(); // => Some(10)
 ```
 
@@ -175,7 +174,7 @@ IO.of(10).option(); // => Some(10)
 Error handling via fallback handler.
 
 ```ts
-IO(() => { throw 'err'; }).recover(e => 'default'); // => IO<void, 'default'>
+IO(() => { throw 'error'; }).recover(e => 'default'); // => IO<void, 'default'>
 ```
 
 ---
@@ -185,7 +184,7 @@ IO(() => { throw 'err'; }).recover(e => 'default'); // => IO<void, 'default'>
 Error handling via fallback value.
 
 ```ts
-IO(() => { throw 'err'; }).recoverWith(IO.of('alt')); // => IO<void, 'alt'>
+IO(() => { throw 'error'; }).recoverWith(IO.of('default')); // => IO<void, 'default'>
 ```
 
 ---
@@ -195,7 +194,7 @@ IO(() => { throw 'err'; }).recoverWith(IO.of('alt')); // => IO<void, 'alt'>
 Retries the computation on failure.
 
 ```ts
-IO(() => { throw 'fail'; }).retry(3); // => retries 3 times
+IO(() => { throw 'error'; }).retry(3); // => retries 3 times
 ```
 
 ---
@@ -223,7 +222,7 @@ IOAsync(() => new Promise(r => setTimeout(() => r(5), 2000)))
 
 ### `.cancel()` (`IOAsync` only)
 
-Cancels the computation using a cancellation token.
+Cancels the current computation.
 
 ```ts
 IOAsync.of(5).cancel(); // => IOAsync<void, never>
@@ -233,20 +232,20 @@ IOAsync.of(5).cancel(); // => IOAsync<void, never>
 
 ### `.transform(fn)`
 
-Applies a custom transformation to the entire IO/IOAsync structure.
+Applies a custom transformation to the entire `IO` or `IOAsync` structure.
 
 ```ts
-IO.of(5).transform(io => io.map(x => x * 2)); // => IO<void, 10>
+IO.of(5).transform(io => enqueue(io.run())); // => void
 ```
 
 ---
 
 ### `.access(fn)`
 
-Extracts a value from the environment.
+Extracts a value from the environment for side-effects.
 
 ```ts
-IO.access((env: string) => env.length); // => IO<string, number>
+IO(env => env.length).access(env => console.log(env)).run('hello'); // => logs 5
 ```
 
 ---
@@ -256,7 +255,7 @@ IO.access((env: string) => env.length); // => IO<string, number>
 Transforms the environment type.
 
 ```ts
-IO<string, number>.local(env => env.toUpperCase()); // => IO<S, number>
+IO(env => env.length).local(env => env.toUpperCase()).run('hello'); // => HELLO
 ```
 
 ---
@@ -273,7 +272,7 @@ IO.of(5).async(); // => IOAsync<void, 5>
 
 ### `.run(env)`
 
-Executes the IO/IOAsync with the provided environment.
+Executes the `IO` or `IOAsync` with the provided environment.
 
 ```ts
 IO.of(5).run(); // => 5
@@ -287,6 +286,6 @@ IOAsync.of(5).run(); // => Promise<5>
 Returns a string representation.
 
 ```ts
-IO.of(5).inspect(); // => "IO(() => 5)"
-IOAsync.of(5).inspect(); // => "IOAsync(() => 5)"
+IO.of(5).inspect(); // => IO(() => 5)
+IOAsync.of(5).inspect(); // => IOAsync(() => 5)
 ```

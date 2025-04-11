@@ -35,12 +35,12 @@ All the following methods are available on `Either`, whether `Left` or `Right`.
 
 ---
 
-### `.ap(eitherFn)`
+### `.ap(applicative)`
 
 Applies a wrapped function to the `Right` value.
 
 ```ts
-const fn = Right((x: number) => x * 3);
+const fn = Right(x => x * 3);
 Right(5).ap(fn); // => Right(15)
 Left('error').ap(fn); // => Left('error')
 ```
@@ -49,7 +49,7 @@ Left('error').ap(fn); // => Left('error')
 
 ### `.map(fn)`
 
-Transforms the `Right` value with a function. No effect if `Left`.
+Transforms the `Right` value with a function.
 
 ```ts
 Right(5).map(x => x + 1); // => Right(6)
@@ -63,8 +63,8 @@ Left('error').map(x => x + 1); // => Left('error')
 Runs a function for side effects if `Right`.
 
 ```ts
-Right(5).forEach(x => console.log(x)); // logs 5
-Left('error').forEach(x => console.log(x)); // does nothing
+Right(5).forEach(x => console.log(x)); // => logs 5
+Left('error').forEach(x => console.log(x)); // => does nothing
 ```
 
 ---
@@ -163,14 +163,14 @@ Folds the value into a single result based on the variant.
 
 ```ts
 Right(5).fold(
-  r => `Right: ${r}`,
-  l => `Left: ${l}`
-); // => "Right: 5"
+  r => x * 2,
+  l => l.length
+); // => 10
 
-Left('fail').fold(
-  r => `Right: ${r}`,
-  l => `Left: ${l}`
-); // => "Left: fail"
+Left('error').fold(
+  r => x * 2,
+  l => l.length
+); // => 5
 ```
 
 ---
@@ -183,12 +183,12 @@ Pattern matching for `Right` and `Left`.
 Right(5).match({
   Right: r => `Success: ${r}`,
   Left: l => `Error: ${l}`,
-}); // => "Success: 5"
+}); // => Success: 5
 
-Left('fail').match({
+Left('error').match({
   Right: r => `Success: ${r}`,
   Left: l => `Error: ${l}`,
-}); // => "Error: fail"
+}); // => Error: error
 ```
 
 ---
@@ -198,9 +198,9 @@ Left('fail').match({
 Keeps the `Right` value only if it satisfies the predicate. Otherwise becomes `Left(null)`.
 
 ```ts
-Right(5).filter(x => x > 3);  // => Right(5)
-Right(2).filter(x => x > 3);  // => Left(null)
-Left('fail').filter(x => x > 3); // => Left('fail')
+Right(5).filter(x => x > 3); // => Right(5)
+Right(2).filter(x => x > 3); // => Left(null)
+Left('error').filter(x => x > 3); // => Left('error')
 ```
 
 ---
@@ -210,8 +210,15 @@ Left('fail').filter(x => x > 3); // => Left('fail')
 Transforms the entire `Either` structure.
 
 ```ts
-Right(5).transform(either => either.getOrElse(0) + 1); // => 6
-Left('fail').transform(either => either.getOrElse(0) + 1); // => 1
+Right(5).transform(et => et.isRight()
+  ? Right('success')
+  : Right('default')
+); // => Right('success')
+
+Left('error').transform(et => et.isRight()
+  ? Right('success')
+  : Right('default')
+); // => Right('default')
 ```
 
 ---
@@ -223,7 +230,7 @@ Checks if `Right` contains the specified value.
 ```ts
 Right(5).contains(5); // => true
 Right(5).contains(10); // => false
-Left('fail').contains(5); // => false
+Left('error').contains(5); // => false
 ```
 
 ---
@@ -235,7 +242,7 @@ Compares two `Either` instances by value and type.
 ```ts
 Right(5).equals(Right(5)); // => true
 Right(5).equals(Right(10)); // => false
-Left('fail').equals(Left('fail')); // => true
+Left('error').equals(Left('error')); // => true
 ```
 
 ---
@@ -246,7 +253,7 @@ Swaps `Left` to `Right` and vice versa.
 
 ```ts
 Right(5).swap(); // => Left(5)
-Left('fail').swap(); // => Right('fail')
+Left('error').swap(); // => Right('error')
 ```
 
 ---
@@ -257,7 +264,7 @@ Converts a `Right` to `Some`, or `Left` to `None`.
 
 ```ts
 Right(5).option(); // => Some(5)
-Left('fail').option(); // => None
+Left('error').option(); // => None
 ```
 
 ---
@@ -267,6 +274,6 @@ Left('fail').option(); // => None
 Returns a string representation.
 
 ```ts
-Right(5).inspect(); // => "Right(5)"
-Left('fail').inspect(); // => "Left(fail)"
+Right(5).inspect(); // => Right(5)
+Left('error').inspect(); // => Left('error')
 ```

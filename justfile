@@ -1,4 +1,8 @@
 [private]
+default:
+  @just --list
+
+[private]
 get_version:
  @npm pkg get version | awk -F'"' '{print $2}'
 

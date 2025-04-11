@@ -1,6 +1,6 @@
-import { None, Option, Some } from "../option";
+import { None, type Option, Some } from "~/adts/option";
 
-interface Either<L, R> {
+export interface Either<L, R> {
 	ap: <R2>(applicative: Either<L, (r: R) => R2>) => Either<L, R2>;
 	map: <R2>(f: (r: R) => R2) => Either<L, R2>;
 	forEach: <R2 = void>(f: (r: R) => R2) => Either<L, R>;
@@ -26,11 +26,11 @@ interface Either<L, R> {
 	inspect: () => string;
 }
 
-type Left<L> = Either<L, never>;
+export type Left<L> = Either<L, never>;
 
-type Right<R> = Either<never, R>;
+export type Right<R> = Either<never, R>;
 
-const Left = <L>(l: L): Left<L> => ({
+export const Left = <L>(l: L): Left<L> => ({
 	ap: (_) => Left(l),
 	map: (_) => Left(l),
 	forEach: (_) => Left(l),
@@ -57,7 +57,7 @@ const Left = <L>(l: L): Left<L> => ({
 
 Left.of = Left;
 
-const Right = <R>(r: R): Right<R> => ({
+export const Right = <R>(r: R): Right<R> => ({
 	ap: (applicative) => applicative.map((f) => f(r)),
 	map: (f) => Right(f(r)),
 	forEach: (f) => {
@@ -85,9 +85,7 @@ const Right = <R>(r: R): Right<R> => ({
 
 Right.of = Right;
 
-const Either = {
+export const Either = {
 	left: Left,
 	right: Right,
 };
-
-export { Either, Left, Right };

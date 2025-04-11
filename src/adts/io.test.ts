@@ -1,4 +1,5 @@
-import { IO } from "./io";
+import { expect, it } from "vitest";
+import { IO } from "~/adts/io";
 
 const g = (n: number) => IO(() => n + 1);
 const f = (n: number) => IO(() => n * 2);

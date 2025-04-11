@@ -1,7 +1,7 @@
-import { Either, Left, Right } from "../either";
-import { isNil } from "../utils";
+import { type Either, Left, Right } from "~/adts/either";
+import { isNil } from "~/utils";
 
-interface Option<A> {
+export interface Option<A> {
 	ap: <B>(applicative: Option<(a: A) => B>) => Option<B>;
 	map: <B>(f: (a: A) => B) => Option<B>;
 	forEach: <B = void>(f: (a: A) => B) => Option<A>;
@@ -23,11 +23,11 @@ interface Option<A> {
 	inspect: () => string;
 }
 
-type Some<A> = Option<A>;
+export type Some<A> = Option<A>;
 
-type None = Option<never>;
+export type None = Option<never>;
 
-const Some = <A>(a: A): Some<A> => ({
+export const Some = <A>(a: A): Some<A> => ({
 	ap: (applicative) => applicative.map((f) => f(a)),
 	map: (f) => Some(f(a)),
 	forEach: (f) => {
@@ -54,7 +54,7 @@ const Some = <A>(a: A): Some<A> => ({
 
 Some.of = Some;
 
-const None: None = {
+export const None: None = {
 	ap: (_) => None,
 	map: (_) => None,
 	forEach: (_) => None,
@@ -78,16 +78,14 @@ const None: None = {
 	inspect: () => "None",
 };
 
-function Option<A>(a: NonNullable<A>): Some<NonNullable<A>>;
-function Option<A>(a: undefined | null): None;
-function Option<A>(a: A | null): Option<NonNullable<A>>;
-function Option<A>(a: A | undefined): Option<NonNullable<A>>;
-function Option<A>(a: A | undefined | null): Option<NonNullable<A>> {
+export function Option<A>(a: NonNullable<A>): Some<NonNullable<A>>;
+export function Option<A>(a: undefined | null): None;
+export function Option<A>(a: A | null): Option<NonNullable<A>>;
+export function Option<A>(a: A | undefined): Option<NonNullable<A>>;
+export function Option<A>(a: A | undefined | null): Option<NonNullable<A>> {
 	return isNil(a) ? None : !isNil(a) ? Some(a as NonNullable<A>) : Option(a);
 }
 
 Option.of = Option;
 Option.some = Some;
 Option.none = None;
-
-export { None, Option, Some };

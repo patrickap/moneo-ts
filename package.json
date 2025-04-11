@@ -5,25 +5,35 @@
 	"license": "MIT",
 	"author": "patrickap",
 	"repository": "https://github.com/patrickap/moneo-ts.git",
-	"type": "commonjs",
-	"main": "dist/index",
-	"types": "dist/index",
+	"type": "module",
+	"files": [
+		"./dist"
+	],
+	"main": "./dist/moneo-ts.umd.cjs",
+	"module": "./dist/moneo-ts.js",
+	"exports": {
+		".": {
+			"import": "./dist/moneo-ts.js",
+			"require": "./dist/moneo-ts.umd.cjs",
+			"types": "./dist/index.d.ts"
+		}
+	},
+	"types": "./dist/index",
 	"scripts": {
-		"test": "jest",
-		"test:watch": "jest --watch",
-		"build": "tsc",
-		"build:update": "npm run build && git add . && git commit -m 'chore: new build' && git push",
-		"release": "npm run test && npm run release:build && dotenv semantic-release",
+		"test": "vitest",
+		"test:coverage": "vitest run --coverage",
+		"build": "tsc && vite build",
+		"release": "npm run test && npm run build && dotenv semantic-release",
 		"release:dry": "dotenv semantic-release -- -d"
 	},
 	"devDependencies": {
-		"@semantic-release/git": "^10.0.1",
-		"@types/jest": "^29.5.14",
+		"@biomejs/biome": "^1.9.4",
 		"dotenv-cli": "^8.0.0",
-		"jest": "^29.7.0",
 		"semantic-release": "^24.2.3",
-		"ts-jest": "^29.3.1",
-		"typescript": "^5.8.3"
+		"typescript": "^5.8.3",
+		"vite": "^6.2.6",
+		"vite-plugin-dts": "^4.5.3",
+		"vitest": "^3.1.1"
 	},
 	"keywords": [
 		"monad",

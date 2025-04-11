@@ -1,17 +1,17 @@
 {
 	"compilerOptions": {
-		"target": "ES6",
-		"module": "NodeNext",
-		"moduleResolution": "nodenext",
-		"declaration": true,
-		"declarationMap": true,
-		"outDir": "dist",
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
 		"strict": true,
-		"esModuleInterop": true,
-		"isolatedModules": true,
 		"skipLibCheck": true,
-		"lib": ["ES6"]
+		"isolatedModules": true,
+		"esModuleInterop": true,
+		"noEmit": true,
+		"baseUrl": ".",
+    "paths": {
+      "~/*": ["./src/*"]
+    }
 	},
-	"include": ["src"],
-	"exclude": ["**/*.test.ts", "**/*.test.js"]
+	"include": ["./src"],
 }

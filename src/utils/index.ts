@@ -1,4 +1,4 @@
-const isNil = (x: unknown): x is undefined | null => {
+export const isNil = (x: unknown): x is undefined | null => {
 	if (x === null || x === undefined) {
 		return true;
 	}
@@ -6,7 +6,7 @@ const isNil = (x: unknown): x is undefined | null => {
 	return false;
 };
 
-const delay = async <T>(fn: () => Promise<T>, ms: number) => {
+export const delay = async <T>(fn: () => Promise<T>, ms: number) => {
 	return new Promise((resolve) => {
 		const timeoutId = setTimeout(() => {
 			resolve(void 0);
@@ -15,7 +15,7 @@ const delay = async <T>(fn: () => Promise<T>, ms: number) => {
 	}).then(() => fn());
 };
 
-const timeout = async <T>(fn: () => Promise<T>, ms: number) => {
+export const timeout = async <T>(fn: () => Promise<T>, ms: number) => {
 	let timeoutId: NodeJS.Timeout;
 
 	const timeoutFn = () => {
@@ -30,7 +30,7 @@ const timeout = async <T>(fn: () => Promise<T>, ms: number) => {
 	});
 };
 
-const cancel = <T>(fn: () => Promise<T>) => {
+export const cancel = <T>(fn: () => Promise<T>) => {
 	const cancelFn = () => {
 		return new Promise((_, reject) => reject(new Error("promise canceled")));
 	};
@@ -40,7 +40,7 @@ const cancel = <T>(fn: () => Promise<T>) => {
 	}) as Promise<never>;
 };
 
-const memoize = <A extends unknown[] = unknown[], T = unknown>(
+export const memoize = <A extends unknown[] = unknown[], T = unknown>(
 	fn: (...args: A) => T,
 ) => {
 	const cache = new Map();
@@ -51,5 +51,3 @@ const memoize = <A extends unknown[] = unknown[], T = unknown>(
 			: cache.set(key, fn(...args)) && cache.get(key);
 	};
 };
-
-export { cancel, delay, isNil, memoize, timeout };

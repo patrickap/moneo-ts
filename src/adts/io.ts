@@ -1,9 +1,9 @@
-import { Either, Left, Right } from "../either";
-import { None, Option, Some } from "../option";
-import type { Throwable } from "../types";
-import { cancel, delay, memoize, timeout } from "../utils";
+import { type Either, Left, Right } from "~/adts/either";
+import { None, type Option, Some } from "~/adts/option";
+import type { Throwable } from "~/types";
+import { cancel, delay, memoize, timeout } from "~/utils";
 
-interface IOAsync<R, A> {
+export interface IOAsync<R, A> {
 	ap: <B>(applicative: IOAsync<R, (a: A) => B | Promise<B>>) => IOAsync<R, B>;
 	map: <B>(f: (a: A) => B | Promise<B>) => IOAsync<R, B>;
 	forEach: <B = void>(f: (a: A) => B | Promise<B>) => IOAsync<R, A>;
@@ -30,7 +30,7 @@ interface IOAsync<R, A> {
 	inspect: () => string;
 }
 
-interface IO<R, A> {
+export interface IO<R, A> {
 	ap: <B>(applicative: IO<R, (a: A) => B>) => IO<R, B>;
 	map: <B>(f: (a: A) => B) => IO<R, B>;
 	forEach: <B = void>(f: (a: A) => B) => IO<R, A>;
@@ -52,7 +52,7 @@ interface IO<R, A> {
 	inspect: () => string;
 }
 
-const IOAsync = <R = void, A = unknown>(
+export const IOAsync = <R = void, A = unknown>(
 	fa: (env: R) => A | Promise<A>,
 ): IOAsync<R, A> => {
 	return {
@@ -143,7 +143,7 @@ IOAsync.failure = (t: Throwable) =>
 	});
 IOAsync.success = <A>(a: A) => IOAsync(() => a);
 
-const IO = <R = void, A = unknown>(fa: (env: R) => A): IO<R, A> => {
+export const IO = <R = void, A = unknown>(fa: (env: R) => A): IO<R, A> => {
 	return {
 		ap: (applicative) =>
 			IO((env) => applicative.map((f) => f(fa(env))).run(env)),
@@ -220,5 +220,3 @@ IO.failure = (t: Throwable) =>
 	});
 IO.success = <A>(a: A) => IO(() => a);
 IO.async = IOAsync;
-
-export { IO, IOAsync };

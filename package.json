@@ -26,6 +26,7 @@
 		"test": "vitest",
 		"test:coverage": "vitest run --coverage",
 		"build": "tsc && vite build",
+		"release": "npm run test && npm run build && just release_auto",
 		"release:patch": "npm run test && npm run build && just release_patch",
 		"release:minor": "npm run test && npm run build && just release_minor",
 		"release:major": "npm run test && npm run build && just release_major"

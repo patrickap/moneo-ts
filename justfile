@@ -4,7 +4,7 @@ default:
 
 [private]
 get_version:
- @npm pkg get version | awk -F'"' '{print $2}'
+  @npm pkg get version | awk -F'"' '{print $2}'
 
 [private]
 set_version type:

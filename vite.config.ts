@@ -20,9 +20,6 @@ export default defineConfig({
 			"~": resolve(__dirname, "src"),
 		},
 	},
-	test: {
-		watch: false,
-	},
 	plugins: [
 		nodePolyfills({ include: ["util"], protocolImports: true }),
 		dts({ exclude: ["**/*.test.ts"] }),

@@ -23,7 +23,8 @@
 	},
 	"types": "./dist/index",
 	"scripts": {
-		"test": "vitest",
+		"test": "vitest run",
+		"test:watch": "vitest watch",
 		"test:coverage": "vitest run --coverage",
 		"build": "tsc && vite build",
 		"release": "npm run test && npm run build && sh release.sh"

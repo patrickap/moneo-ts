@@ -1,18 +1,17 @@
 {
-	"compilerOptions": {
-		"target": "ES6",
-		"module": "ESNext",
-		"moduleResolution": "bundler",
-		"types": ["node"],
-		"strict": true,
-		"skipLibCheck": true,
-		"isolatedModules": true,
-		"esModuleInterop": true,
-		"noEmit": true,
-		"baseUrl": ".",
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "types": ["node"],
+    "strict": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "noEmit": true,
     "paths": {
       "~/*": ["./src/*"]
     }
-	},
-	"include": ["src"],
+  },
+  "include": ["src"]
 }

@@ -14,8 +14,8 @@ The `Option` type represents a value that may or may not be present.
 Creates an `Option`. Returns `Some(value)` if value is non-null / non-undefined, otherwise returns `None`.
 
 ```ts
-Option(5);      // => Some(5)
-Option(null);   // => None
+Option(5); // => Some(5)
+Option(null); // => None
 Option(undefined); // => None
 ```
 
@@ -52,7 +52,7 @@ All the following methods are available on `Option`, whether `Some` or `None`.
 Applies a wrapped function to a wrapped value.
 
 ```ts
-const fn = Option(x => x * 3);
+const fn = Option((x) => x * 3);
 Option(5).ap(fn); // => Some(15)
 None.ap(fn); // => None
 ```
@@ -64,8 +64,8 @@ None.ap(fn); // => None
 Transforms the value using the provided function.
 
 ```ts
-Option(5).map(x => x + 1); // => Some(6)
-None.map(x => x + 1); // => None
+Option(5).map((x) => x + 1); // => Some(6)
+None.map((x) => x + 1); // => None
 ```
 
 ---
@@ -75,8 +75,8 @@ None.map(x => x + 1); // => None
 Executes a function for side effects if value exists.
 
 ```ts
-Option(5).forEach(x => console.log(x)); // => logs 5
-None.forEach(x => console.log(x)); // => logs nothing
+Option(5).forEach((x) => console.log(x)); // => logs 5
+None.forEach((x) => console.log(x)); // => logs nothing
 ```
 
 ---
@@ -86,8 +86,8 @@ None.forEach(x => console.log(x)); // => logs nothing
 Chains another `Option`-returning function.
 
 ```ts
-Option(5).flatMap(x => Option(x + 1)); // => Some(6)
-None.flatMap(x => Option(x + 1)); // => None
+Option(5).flatMap((x) => Option(x + 1)); // => Some(6)
+None.flatMap((x) => Option(x + 1)); // => None
 ```
 
 ---
@@ -175,13 +175,13 @@ Applies one of two functions depending on presence of value.
 
 ```ts
 Option(5).fold(
-  x => x * 2,
-  () => 0
+  (x) => x * 2,
+  () => 0,
 ); // => 10
 
 None.fold(
-  x => x * 2,
-  () => 0
+  (x) => x * 2,
+  () => 0,
 ); // => 0
 ```
 
@@ -193,13 +193,13 @@ Pattern matches `Some` and `None` cases.
 
 ```ts
 Option(5).match({
-  Some: x => `Got ${x}`,
-  None: () => 'Nothing'
+  Some: (x) => `Got ${x}`,
+  None: () => "Nothing",
 }); // => Got 5
 
 None.match({
-  Some: x => `Got ${x}`,
-  None: () => 'Nothing'
+  Some: (x) => `Got ${x}`,
+  None: () => "Nothing",
 }); // => Nothing
 ```
 
@@ -210,8 +210,8 @@ None.match({
 Keeps the value only if it satisfies the predicate.
 
 ```ts
-Option(5).filter(x => x > 3); // => Some(5)
-Option(5).filter(x => x > 10); // => None
+Option(5).filter((x) => x > 3); // => Some(5)
+Option(5).filter((x) => x > 10); // => None
 ```
 
 ---
@@ -221,15 +221,9 @@ Option(5).filter(x => x > 10); // => None
 Transforms the entire `Option` object into something else.
 
 ```ts
-Option(5).transform(opt => opt.isSome()
-  ? Some('success')
-  : Some('default')
-); // => Some('success')
+Option(5).transform((opt) => (opt.isSome() ? Some("success") : Some("default"))); // => Some('success')
 
-None.transform(opt => opt.isSome()
-  ? Some('success')
-  : Some('default')
-); // => Some('default')
+None.transform((opt) => (opt.isSome() ? Some("success") : Some("default"))); // => Some('default')
 ```
 
 ---

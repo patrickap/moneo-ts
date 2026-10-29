@@ -24,7 +24,7 @@ Right(5); // => Right(5)
 Creates a `Left` instance wrapping an error or failure value.
 
 ```ts
-Left('error'); // => Left('error')
+Left("error"); // => Left('error')
 ```
 
 ---
@@ -40,9 +40,9 @@ All the following methods are available on `Either`, whether `Left` or `Right`.
 Applies a wrapped function to the `Right` value.
 
 ```ts
-const fn = Right(x => x * 3);
+const fn = Right((x) => x * 3);
 Right(5).ap(fn); // => Right(15)
-Left('error').ap(fn); // => Left('error')
+Left("error").ap(fn); // => Left('error')
 ```
 
 ---
@@ -52,8 +52,8 @@ Left('error').ap(fn); // => Left('error')
 Transforms the `Right` value with a function.
 
 ```ts
-Right(5).map(x => x + 1); // => Right(6)
-Left('error').map(x => x + 1); // => Left('error')
+Right(5).map((x) => x + 1); // => Right(6)
+Left("error").map((x) => x + 1); // => Left('error')
 ```
 
 ---
@@ -63,8 +63,8 @@ Left('error').map(x => x + 1); // => Left('error')
 Runs a function for side effects if `Right`.
 
 ```ts
-Right(5).forEach(x => console.log(x)); // => logs 5
-Left('error').forEach(x => console.log(x)); // => does nothing
+Right(5).forEach((x) => console.log(x)); // => logs 5
+Left("error").forEach((x) => console.log(x)); // => does nothing
 ```
 
 ---
@@ -74,8 +74,8 @@ Left('error').forEach(x => console.log(x)); // => does nothing
 Chains another `Either`-returning function.
 
 ```ts
-Right(5).flatMap(x => Right(x + 1)); // => Right(6)
-Left('error').flatMap(x => Right(x + 1)); // => Left('error')
+Right(5).flatMap((x) => Right(x + 1)); // => Right(6)
+Left("error").flatMap((x) => Right(x + 1)); // => Left('error')
 ```
 
 ---
@@ -86,7 +86,7 @@ Returns `true` if the value is a `Left`.
 
 ```ts
 Right(5).isLeft(); // => false
-Left('error').isLeft(); // => true
+Left("error").isLeft(); // => true
 ```
 
 ---
@@ -97,7 +97,7 @@ Returns `true` if the value is a `Right`.
 
 ```ts
 Right(5).isRight(); // => true
-Left('error').isRight(); // => false
+Left("error").isRight(); // => false
 ```
 
 ---
@@ -108,7 +108,7 @@ Returns self if `Right`, otherwise returns the alternative `Either`.
 
 ```ts
 Right(5).orElse(Right(10)); // => Right(5)
-Left('error').orElse(Right(10)); // => Right(10)
+Left("error").orElse(Right(10)); // => Right(10)
 ```
 
 ---
@@ -119,7 +119,7 @@ Unwraps the `Right` value or returns a fallback.
 
 ```ts
 Right(5).getOrElse(99); // => 5
-Left('error').getOrElse(99); // => 99
+Left("error").getOrElse(99); // => 99
 ```
 
 ---
@@ -130,7 +130,7 @@ Returns value or `null`.
 
 ```ts
 Right(5).getOrNull(); // => 5
-Left('error').getOrNull(); // => null
+Left("error").getOrNull(); // => null
 ```
 
 ---
@@ -141,7 +141,7 @@ Returns value or `undefined`.
 
 ```ts
 Right(5).getOrUndefined(); // => 5
-Left('error').getOrUndefined(); // => undefined
+Left("error").getOrUndefined(); // => undefined
 ```
 
 ---
@@ -152,7 +152,7 @@ Unwraps the value or throws an error if `Left`.
 
 ```ts
 Right(5).get(); // => 5
-Left('error').get(); // => throws Error
+Left("error").get(); // => throws Error
 ```
 
 ---
@@ -163,13 +163,13 @@ Folds the value into a single result based on the variant.
 
 ```ts
 Right(5).fold(
-  r => x * 2,
-  l => l.length
+  (r) => x * 2,
+  (l) => l.length,
 ); // => 10
 
-Left('error').fold(
-  r => x * 2,
-  l => l.length
+Left("error").fold(
+  (r) => x * 2,
+  (l) => l.length,
 ); // => 5
 ```
 
@@ -181,13 +181,13 @@ Pattern matching for `Right` and `Left`.
 
 ```ts
 Right(5).match({
-  Right: r => `Success: ${r}`,
-  Left: l => `Error: ${l}`,
+  Right: (r) => `Success: ${r}`,
+  Left: (l) => `Error: ${l}`,
 }); // => Success: 5
 
-Left('error').match({
-  Right: r => `Success: ${r}`,
-  Left: l => `Error: ${l}`,
+Left("error").match({
+  Right: (r) => `Success: ${r}`,
+  Left: (l) => `Error: ${l}`,
 }); // => Error: error
 ```
 
@@ -198,9 +198,9 @@ Left('error').match({
 Keeps the `Right` value only if it satisfies the predicate. Otherwise becomes `Left(null)`.
 
 ```ts
-Right(5).filter(x => x > 3); // => Right(5)
-Right(2).filter(x => x > 3); // => Left(null)
-Left('error').filter(x => x > 3); // => Left('error')
+Right(5).filter((x) => x > 3); // => Right(5)
+Right(2).filter((x) => x > 3); // => Left(null)
+Left("error").filter((x) => x > 3); // => Left('error')
 ```
 
 ---
@@ -210,15 +210,9 @@ Left('error').filter(x => x > 3); // => Left('error')
 Transforms the entire `Either` structure.
 
 ```ts
-Right(5).transform(et => et.isRight()
-  ? Right('success')
-  : Right('default')
-); // => Right('success')
+Right(5).transform((et) => (et.isRight() ? Right("success") : Right("default"))); // => Right('success')
 
-Left('error').transform(et => et.isRight()
-  ? Right('success')
-  : Right('default')
-); // => Right('default')
+Left("error").transform((et) => (et.isRight() ? Right("success") : Right("default"))); // => Right('default')
 ```
 
 ---
@@ -230,7 +224,7 @@ Checks if `Right` contains the specified value.
 ```ts
 Right(5).contains(5); // => true
 Right(5).contains(10); // => false
-Left('error').contains(5); // => false
+Left("error").contains(5); // => false
 ```
 
 ---
@@ -242,7 +236,7 @@ Compares two `Either` instances by value and type.
 ```ts
 Right(5).equals(Right(5)); // => true
 Right(5).equals(Right(10)); // => false
-Left('error').equals(Left('error')); // => true
+Left("error").equals(Left("error")); // => true
 ```
 
 ---
@@ -253,7 +247,7 @@ Swaps `Left` to `Right` and vice versa.
 
 ```ts
 Right(5).swap(); // => Left(5)
-Left('error').swap(); // => Right('error')
+Left("error").swap(); // => Right('error')
 ```
 
 ---
@@ -264,7 +258,7 @@ Converts a `Right` to `Some`, or `Left` to `None`.
 
 ```ts
 Right(5).option(); // => Some(5)
-Left('error').option(); // => None
+Left("error").option(); // => None
 ```
 
 ---
@@ -275,5 +269,5 @@ Returns a string representation.
 
 ```ts
 Right(5).inspect(); // => Right(5)
-Left('error').inspect(); // => Left('error')
+Left("error").inspect(); // => Left('error')
 ```

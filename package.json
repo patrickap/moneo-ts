@@ -1,53 +1,59 @@
 {
-	"name": "moneo-ts",
-	"version": "1.9.0",
-	"description": "monad library for typescript",
-	"license": "MIT",
-	"author": "patrickap",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/patrickap/moneo-ts.git"
-	},
-	"type": "module",
-	"files": [
-		"dist"
-	],
-	"types": "./dist/index.d.ts",
-	"main": "./dist/index.cjs",
-	"module": "./dist/index.js",
-	"exports": {
-		".": {
-			"types": "./dist/index.d.ts",
-			"require": "./dist/index.cjs",
-			"import": "./dist/index.js"
-		}
-	},
-	"scripts": {
-		"test": "vitest run",
-		"test:watch": "vitest watch",
-		"test:coverage": "vitest run --coverage",
-		"build": "tsc && vite build",
-		"release": "npm run test && npm run build && sh release.sh"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "^2.3.6",
-		"@types/node": "^24.10.1",
-		"typescript": "^5.9.3",
-		"vite": "^7.2.2",
-		"vite-plugin-dts": "^4.5.4",
-		"vite-plugin-node-polyfills": "^0.24.0",
-		"vitest": "^4.0.10"
-	},
-	"keywords": [
-		"monad",
-		"adt",
-		"functional",
-		"fp",
-		"typescript",
-		"pure",
-		"option",
-		"either",
-		"io",
-		"async"
-	]
+  "name": "moneo-ts",
+  "version": "1.9.0",
+  "description": "monad library for typescript",
+  "keywords": [
+    "adt",
+    "async",
+    "either",
+    "fp",
+    "functional",
+    "io",
+    "monad",
+    "option",
+    "pure",
+    "typescript"
+  ],
+  "license": "MIT",
+  "author": "patrickap",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/patrickap/moneo-ts.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage",
+    "lint": "oxlint --config oxlint.config.js",
+    "lint:fix": "oxlint --fix --config oxlint.config.js",
+    "format": "oxfmt --config oxfmt.config.js",
+    "format:check": "oxfmt --check --config oxfmt.config.js",
+    "build": "tsc && vite build",
+    "release": "npm run test && npm run build && sh release.sh"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@typescript/typescript6": "^6.0.2",
+    "oxfmt": "^0.75.0",
+    "oxlint": "^1.90.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5",
+    "vite-plugin-dts": "^5.1.2",
+    "vite-plugin-node-polyfills": "^0.28.0",
+    "vitest": "^5.0.5"
+  }
 }

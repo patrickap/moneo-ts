@@ -16,28 +16,23 @@ export const delay = async <T>(fn: () => Promise<T>, ms: number) => {
 };
 
 export const timeout = async <T>(fn: () => Promise<T>, ms: number) => {
-	let timeoutId: NodeJS.Timeout;
+	let timeoutId: ReturnType<typeof setTimeout>;
 
 	const timeoutFn = () => {
 		return new Promise((_, reject) => {
-			timeoutId = setTimeout(() => reject(new Error("promise timed out")), ms);
+			timeoutId = setTimeout(() => {
+				reject(new Error("promise timed out"));
+			}, ms);
 		}) as Promise<T>;
 	};
 
-	return Promise.race([fn(), timeoutFn()]).then((result) => {
-		clearTimeout(timeoutId);
-		return result;
-	});
+	return Promise.race([fn(), timeoutFn()]).finally(() =>
+		clearTimeout(timeoutId),
+	);
 };
 
-export const cancel = <T>(fn: () => Promise<T>) => {
-	const cancelFn = () => {
-		return new Promise((_, reject) => reject(new Error("promise canceled")));
-	};
-
-	return Promise.race([fn(), cancelFn()]).then((result) => {
-		return result;
-	}) as Promise<never>;
+export const cancel = <T>(fn: () => Promise<T>): Promise<never> => {
+	return Promise.reject(new Error("promise canceled"));
 };
 
 export const memoize = <A extends unknown[] = unknown[], T = unknown>(

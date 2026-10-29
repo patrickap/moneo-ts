@@ -62,8 +62,9 @@ export const IOAsync = <R = void, A = unknown>(
 		map: (f) => IOAsync(async (env) => f(await fa(env))),
 		forEach: (f) =>
 			IOAsync(async (env) => {
-				f(await fa(env));
-				return await fa(env);
+				const result = await fa(env);
+				await f(result);
+				return result;
 			}),
 		flatMap: (f) => IOAsync(async (env) => f(await fa(env)).run(env)),
 		flatMapL: (f, local) =>
@@ -151,8 +152,9 @@ export const IO = <R = void, A = unknown>(fa: (env: R) => A): IO<R, A> => {
 		map: (f) => IO((env) => f(fa(env))),
 		forEach: (f) =>
 			IO((env) => {
-				f(fa(env));
-				return fa(env);
+				const result = fa(env);
+				f(result);
+				return result;
 			}),
 		flatMap: (f) => IO((env) => f(fa(env)).run(env)),
 		flatMapL: (f, local) => IO((env) => f(fa(env)).run(local(env))),

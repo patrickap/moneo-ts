@@ -1,6 +1,6 @@
 {
   "name": "moneo-ts",
-  "version": "1.9.0",
+  "version": "1.13.0",
   "description": "monad library for typescript",
   "keywords": [
     "adt",
